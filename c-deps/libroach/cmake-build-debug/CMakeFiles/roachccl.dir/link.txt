@@ -1,0 +1,2 @@
+/usr/bin/ar qc libroachccl.a  CMakeFiles/roachccl.dir/ccl/db.cc.o
+/usr/bin/ranlib libroachccl.a

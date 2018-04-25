@@ -1,0 +1,4 @@
+/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles/roachccl.dir
+/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles/roach.dir

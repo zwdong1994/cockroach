@@ -30,6 +30,18 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/log"
 )
 
+// #cgo CPPFLAGS: -I../../c-deps/libroach/include
+// #cgo CPPFLAGS: -I/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/include
+// #cgo LDFLAGS: -L/home/victor/workspace/native/x86_64-linux-gnu/protobuf -L/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/lib -L/home/victor/workspace/native/x86_64-linux-gnu/snappy -L/home/victor/workspace/native/x86_64-linux-gnu/rocksdb -L/home/victor/workspace/native/x86_64-linux-gnu/libroach
+// #cgo LDFLAGS: -lprotobuf
+// #cgo LDFLAGS: -lrocksdb
+// #cgo LDFLAGS: -lroach
+// #cgo LDFLAGS: -lrt -lpthread
+// #cgo LDFLAGS: -lstdc++
+// #include <stdlib.h>
+// #include <insert_from_crdb.h>
+import "C"
+
 // expressionCarrier handles visiting sub-expressions.
 type expressionCarrier interface {
 	// walkExprs explores all sub-expressions held by this object, if
@@ -111,6 +123,26 @@ func (ti *tableInserter) init(txn *client.Txn) error {
 func (ti *tableInserter) row(
 	ctx context.Context, values parser.Datums, traceKV bool,
 ) (parser.Datums, error) {
+	//fmt.Println("tablewriter.go: ", len(ti.ri.InsertCols), ti.ri.InsertCols[0], values[0].String())
+	//fmt.Println(ti.ri.Helper.TableDesc.Name) //table name. zdd by zwd.
+	
+		var primary string
+		var primary_num int
+		for i := 0; i < len(ti.ri.InsertCols); i++ {
+			if ti.ri.InsertCols[i].Nullable == false {
+				primary = ti.ri.InsertCols[i].Name
+				primary_num = i
+				//fmt.Println(primary)
+				break;
+			}
+		}
+		for i := 0; i < len(ti.ri.InsertCols); i++ {
+			C.get_kv(C.CString(ti.ri.Helper.TableDesc.Name), C.CString(ti.ri.InsertCols[i].Name),
+				C.CString(values[primary_num].String()), C.CString(primary), C.CString(values[i].String()))
+		}
+		return nil, nil
+
+
 	return nil, ti.ri.InsertRow(ctx, ti.b, values, false, traceKV)
 }
 

@@ -31,7 +31,7 @@ add_library(roach
   protos/cockroach/pkg/storage/engine/enginepb/rocksdb.pb.cc
   protos/cockroach/pkg/util/hlc/timestamp.pb.cc
   protos/cockroach/pkg/util/unresolved_addr.pb.cc
-)
+  insert_from_crdb.cpp)
 target_include_directories(roach
   PUBLIC  ./include
   PRIVATE ../protobuf/src ../rocksdb/include protos
@@ -39,6 +39,7 @@ target_include_directories(roach
 
 add_library(roachccl
   ccl/db.cc
+  insert_from_crdb.cpp
 )
 target_include_directories(roachccl
   PRIVATE ../rocksdb/include
