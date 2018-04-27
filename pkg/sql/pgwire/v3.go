@@ -1330,6 +1330,7 @@ func (c *v3Conn) IncrementRowsAffected(n int) {
 
 // AddRow implements the StatementResult interface.
 func (c *v3Conn) AddRow(ctx context.Context, row parser.Datums) error {
+	fmt.Println("add: ", row)
 	state := &c.streamingState
 	if state.err != nil {
 		return state.err

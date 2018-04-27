@@ -2016,6 +2016,7 @@ func (e *Executor) execClassic(
 					return err
 				}
 			}
+			fmt.Println(values)
 			return rowResultWriter.AddRow(ctx, values)
 		})
 		if err != nil {
