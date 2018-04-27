@@ -125,7 +125,7 @@ func (ti *tableInserter) row(
 ) (parser.Datums, error) {
 	//fmt.Println("tablewriter.go: ", len(ti.ri.InsertCols), ti.ri.InsertCols[0], values[0].String())
 	//fmt.Println(ti.ri.Helper.TableDesc.Name) //table name. zdd by zwd.
-	
+
 		var primary string
 		var primary_num int
 		for i := 0; i < len(ti.ri.InsertCols); i++ {
@@ -136,14 +136,15 @@ func (ti *tableInserter) row(
 				break;
 			}
 		}
+
 		for i := 0; i < len(ti.ri.InsertCols); i++ {
 			C.get_kv(C.CString(ti.ri.Helper.TableDesc.Name), C.CString(ti.ri.InsertCols[i].Name),
-				C.CString(values[primary_num].String()), C.CString(primary), C.CString(values[i].String()))
+				C.CString(values[i].String()), C.CString(primary), C.CString(values[primary_num].String()))
 		}
 		return nil, nil
 
 
-	return nil, ti.ri.InsertRow(ctx, ti.b, values, false, traceKV)
+	//return nil, ti.ri.InsertRow(ctx, ti.b, values, false, traceKV)
 }
 
 func (ti *tableInserter) finalize(ctx context.Context, _ bool) (*sqlbase.RowContainer, error) {
