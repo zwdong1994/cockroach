@@ -31,6 +31,8 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/hlc"
 	"github.com/cockroachdb/cockroach/pkg/util/log"
 	"github.com/cockroachdb/cockroach/pkg/util/tracing"
+
+
 )
 
 // To allow queries to send out flow RPCs in parallel, we use a pool of workers
@@ -363,6 +365,7 @@ func (r *distSQLReceiver) Push(
 	if r.row == nil {
 		r.row = make(parser.Datums, len(r.resultToStreamColMap))
 	}
+
 	for i, resIdx := range r.resultToStreamColMap {
 		err := row[resIdx].EnsureDecoded(&r.alloc)
 		if err != nil {
@@ -373,6 +376,8 @@ func (r *distSQLReceiver) Push(
 		r.row[i] = row[resIdx].Datum
 	}
 	// Note that AddRow accounts for the memory used by the Datums.
+
+
 	if err := r.resultWriter.AddRow(r.ctx, r.row); err != nil {
 		r.err = err
 		// TODO(andrei): We should drain here. Metadata from this query would be

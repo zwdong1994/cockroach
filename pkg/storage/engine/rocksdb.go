@@ -46,6 +46,7 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/log"
 	"github.com/cockroachdb/cockroach/pkg/util/syncutil"
 	"github.com/cockroachdb/cockroach/pkg/util/timeutil"
+	"strconv"
 )
 
 // TODO(tamird): why does rocksdb not link jemalloc,snappy statically?
@@ -1620,6 +1621,29 @@ func (r *rocksDBIterator) Close() {
 }
 
 func (r *rocksDBIterator) Seek(key MVCCKey) {
+	str := key.Key.String()
+	if len(str) > 6 {
+		str2 := str[1:6]
+		var num int
+		if str2 == "Table" {
+			for i, j := 7, len(str); i < j; i++ {
+				if str[i:i+1] != "/" {
+					num = i
+				} else {
+					num, _ = strconv.Atoi(str[7:num+1])
+					//fmt.Printf("num: %d ", num)
+					break;
+				}
+			}
+			//return
+			if num > 10 {
+				return
+				fmt.Printf("num: %d", num)
+				fmt.Printf("rocksdb.go: str: %s\n", str)
+			}
+		}
+	}
+
 	r.checkEngineOpen()
 	if len(key.Key) == 0 {
 		// start=Key("") needs special treatment since we need

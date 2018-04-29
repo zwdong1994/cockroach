@@ -25,6 +25,8 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/sql/sqlbase"
 	"github.com/cockroachdb/cockroach/pkg/util/log"
 	"github.com/cockroachdb/cockroach/pkg/util/tracing"
+	"github.com/cockroachdb/cockroach/pkg/sql/parser"
+
 )
 
 // tableReader is the start of a computation flow; it performs KV operations to
@@ -200,25 +202,33 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 		tr.out.Close()
 		return
 	}
+	v := sqlbase.EncDatumRow{} //return our interface. add by zwd.
+	v = make([]sqlbase.EncDatum, 5)
+	for i := 0; i < 5; i++ {
+		//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
+		v[i] = sqlbase.EncDatum{Datum: parser.NewDString("1234")}
+	}
 
-	for {
+	tr.out.EmitRow(ctx, v)
+	/*for {
 		// TODO(radu,andrei,knz): set the traceKV flag when requested by the session.
-		fetcherRow, err := tr.fetcher.NextRow(ctx, false /* traceKV */)
+		fetcherRow, err := tr.fetcher.NextRow(ctx, false )
 		if err != nil || fetcherRow == nil {
 			if err != nil {
-				tr.out.output.Push(nil /* row */, ProducerMetadata{Err: err})
+				tr.out.output.Push(nil, ProducerMetadata{Err: err})
 			}
 			break
 		}
 		// Emit the row; stop if no more rows are needed.
+		fmt.Println(fetcherRow)
 		consumerStatus, err := tr.out.EmitRow(ctx, fetcherRow)
 		if err != nil || consumerStatus != NeedMoreRows {
 			if err != nil {
-				tr.out.output.Push(nil /* row */, ProducerMetadata{Err: err})
+				tr.out.output.Push(nil , ProducerMetadata{Err: err})
 			}
 			break
 		}
-	}
+	}*/
 	tr.sendMisplannedRangesMetadata(ctx)
 	sendTraceData(ctx, tr.out.output)
 	tr.out.Close()

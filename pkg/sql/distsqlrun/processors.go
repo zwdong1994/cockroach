@@ -299,7 +299,8 @@ func (h *ProcOutputHelper) EmitRow(
 	if log.V(3) {
 		log.InfofDepth(ctx, 1, "pushing row %s", outRow)
 	}
-	if r := h.output.Push(outRow, ProducerMetadata{}); r != NeedMoreRows {
+
+	if r := h.output.Push(outRow, ProducerMetadata{}); r != NeedMoreRows { //outRow is the out put data. add by zwd.
 		log.VEventf(ctx, 1, "no more rows required. drain requested: %t",
 			r == DrainRequested)
 		return r, nil

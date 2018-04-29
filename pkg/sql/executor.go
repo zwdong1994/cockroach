@@ -2002,6 +2002,7 @@ func (e *Executor) execClassic(
 	}
 
 	switch rowResultWriter.StatementType() {
+
 	case parser.RowsAffected:
 		count, err := countRowsAffected(params, plan)
 		if err != nil {
@@ -2016,7 +2017,7 @@ func (e *Executor) execClassic(
 					return err
 				}
 			}
-			fmt.Println(values)
+			//fmt.Println("executor: ", values)
 			return rowResultWriter.AddRow(ctx, values)
 		})
 		if err != nil {

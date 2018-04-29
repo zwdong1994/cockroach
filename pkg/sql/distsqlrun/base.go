@@ -174,7 +174,6 @@ func DrainAndForwardMetadata(ctx context.Context, src RowSource, dst RowReceiver
 				ctx, "both row data and metadata in the same record. row: %s meta: %+v", row, meta,
 			)
 		}
-
 		switch dst.Push(row, meta) {
 		case ConsumerClosed:
 			src.ConsumerClosed()

@@ -14,7 +14,7 @@ public:
     static encoding_info *encoding_info_instance;
     std::map<std::string, int> table_to_col; // map from /Table_id/column to column_id.
     std::map<std::string, int> table_to_id; // map from table name to table id.
-    std::map<std::string, int> table_to_primary;
+    std::map<std::string, int> table_to_primary; //record the primary column name.
     int insert_colomn_id(char *encode_column);
     int insert_table(char *table_name);
 
