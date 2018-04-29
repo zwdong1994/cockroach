@@ -105,19 +105,71 @@ CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o.provides: CMakeFiles/roachccl.dir
 CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o.provides.build: CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o
 
 
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.o: CMakeFiles/roachccl.dir/flags.make
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.o: ../rocksIO_op.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/roachccl.dir/rocksIO_op.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/roachccl.dir/rocksIO_op.cpp.o -c /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/rocksIO_op.cpp
+
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/roachccl.dir/rocksIO_op.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/rocksIO_op.cpp > CMakeFiles/roachccl.dir/rocksIO_op.cpp.i
+
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/roachccl.dir/rocksIO_op.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/rocksIO_op.cpp -o CMakeFiles/roachccl.dir/rocksIO_op.cpp.s
+
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.requires:
+
+.PHONY : CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.requires
+
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.provides: CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.requires
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.provides.build
+.PHONY : CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.provides
+
+CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.provides.build: CMakeFiles/roachccl.dir/rocksIO_op.cpp.o
+
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.o: CMakeFiles/roachccl.dir/flags.make
+CMakeFiles/roachccl.dir/encoding_information.cpp.o: ../encoding_information.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/roachccl.dir/encoding_information.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/roachccl.dir/encoding_information.cpp.o -c /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding_information.cpp
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/roachccl.dir/encoding_information.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding_information.cpp > CMakeFiles/roachccl.dir/encoding_information.cpp.i
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/roachccl.dir/encoding_information.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding_information.cpp -o CMakeFiles/roachccl.dir/encoding_information.cpp.s
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.o.requires:
+
+.PHONY : CMakeFiles/roachccl.dir/encoding_information.cpp.o.requires
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.o.provides: CMakeFiles/roachccl.dir/encoding_information.cpp.o.requires
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/encoding_information.cpp.o.provides.build
+.PHONY : CMakeFiles/roachccl.dir/encoding_information.cpp.o.provides
+
+CMakeFiles/roachccl.dir/encoding_information.cpp.o.provides.build: CMakeFiles/roachccl.dir/encoding_information.cpp.o
+
+
 # Object files for target roachccl
 roachccl_OBJECTS = \
 "CMakeFiles/roachccl.dir/ccl/db.cc.o" \
-"CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o"
+"CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o" \
+"CMakeFiles/roachccl.dir/rocksIO_op.cpp.o" \
+"CMakeFiles/roachccl.dir/encoding_information.cpp.o"
 
 # External object files for target roachccl
 roachccl_EXTERNAL_OBJECTS =
 
 libroachccl.a: CMakeFiles/roachccl.dir/ccl/db.cc.o
 libroachccl.a: CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o
+libroachccl.a: CMakeFiles/roachccl.dir/rocksIO_op.cpp.o
+libroachccl.a: CMakeFiles/roachccl.dir/encoding_information.cpp.o
 libroachccl.a: CMakeFiles/roachccl.dir/build.make
 libroachccl.a: CMakeFiles/roachccl.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libroachccl.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libroachccl.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/roachccl.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/roachccl.dir/link.txt --verbose=$(VERBOSE)
 
@@ -128,6 +180,8 @@ CMakeFiles/roachccl.dir/build: libroachccl.a
 
 CMakeFiles/roachccl.dir/requires: CMakeFiles/roachccl.dir/ccl/db.cc.o.requires
 CMakeFiles/roachccl.dir/requires: CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o.requires
+CMakeFiles/roachccl.dir/requires: CMakeFiles/roachccl.dir/rocksIO_op.cpp.o.requires
+CMakeFiles/roachccl.dir/requires: CMakeFiles/roachccl.dir/encoding_information.cpp.o.requires
 
 .PHONY : CMakeFiles/roachccl.dir/requires
 

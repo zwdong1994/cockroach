@@ -157,7 +157,8 @@
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding.h">
 			<Option target="roach"/>
 		</Unit>
-		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding_information.h.cpp">
+		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/encoding_information.cpp">
+			<Option target="roachccl"/>
 			<Option target="roach"/>
 		</Unit>
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/eventlistener.cc">
@@ -167,6 +168,9 @@
 			<Option target="roach"/>
 		</Unit>
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/include/encoding_infomation.h">
+			<Option target="roach"/>
+		</Unit>
+		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/include/rocksIO_op.h">
 			<Option target="roach"/>
 		</Unit>
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/insert_from_crdb.cpp">
@@ -192,6 +196,10 @@
 			<Option target="roach"/>
 		</Unit>
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/protos/cockroach/pkg/util/unresolved_addr.pb.cc">
+			<Option target="roach"/>
+		</Unit>
+		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/rocksIO_op.cpp">
+			<Option target="roachccl"/>
 			<Option target="roach"/>
 		</Unit>
 		<Unit filename="/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/CMakeLists.txt">

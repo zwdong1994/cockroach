@@ -217,32 +217,35 @@ encoding.cc.s:
 	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding.cc.s
 .PHONY : encoding.cc.s
 
-encoding_information.h.o: encoding_information.h.cpp.o
+encoding_information.o: encoding_information.cpp.o
 
-.PHONY : encoding_information.h.o
+.PHONY : encoding_information.o
 
 # target to build an object file
-encoding_information.h.cpp.o:
-	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.h.cpp.o
-.PHONY : encoding_information.h.cpp.o
+encoding_information.cpp.o:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/encoding_information.cpp.o
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.cpp.o
+.PHONY : encoding_information.cpp.o
 
-encoding_information.h.i: encoding_information.h.cpp.i
+encoding_information.i: encoding_information.cpp.i
 
-.PHONY : encoding_information.h.i
+.PHONY : encoding_information.i
 
 # target to preprocess a source file
-encoding_information.h.cpp.i:
-	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.h.cpp.i
-.PHONY : encoding_information.h.cpp.i
+encoding_information.cpp.i:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/encoding_information.cpp.i
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.cpp.i
+.PHONY : encoding_information.cpp.i
 
-encoding_information.h.s: encoding_information.h.cpp.s
+encoding_information.s: encoding_information.cpp.s
 
-.PHONY : encoding_information.h.s
+.PHONY : encoding_information.s
 
 # target to generate assembly for a file
-encoding_information.h.cpp.s:
-	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.h.cpp.s
-.PHONY : encoding_information.h.cpp.s
+encoding_information.cpp.s:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/encoding_information.cpp.s
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/encoding_information.cpp.s
+.PHONY : encoding_information.cpp.s
 
 eventlistener.o: eventlistener.cc.o
 
@@ -490,6 +493,36 @@ protos/cockroach/pkg/util/unresolved_addr.pb.cc.s:
 	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/protos/cockroach/pkg/util/unresolved_addr.pb.cc.s
 .PHONY : protos/cockroach/pkg/util/unresolved_addr.pb.cc.s
 
+rocksIO_op.o: rocksIO_op.cpp.o
+
+.PHONY : rocksIO_op.o
+
+# target to build an object file
+rocksIO_op.cpp.o:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/rocksIO_op.cpp.o
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/rocksIO_op.cpp.o
+.PHONY : rocksIO_op.cpp.o
+
+rocksIO_op.i: rocksIO_op.cpp.i
+
+.PHONY : rocksIO_op.i
+
+# target to preprocess a source file
+rocksIO_op.cpp.i:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/rocksIO_op.cpp.i
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/rocksIO_op.cpp.i
+.PHONY : rocksIO_op.cpp.i
+
+rocksIO_op.s: rocksIO_op.cpp.s
+
+.PHONY : rocksIO_op.s
+
+# target to generate assembly for a file
+rocksIO_op.cpp.s:
+	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/rocksIO_op.cpp.s
+	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/rocksIO_op.cpp.s
+.PHONY : rocksIO_op.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -509,9 +542,9 @@ help:
 	@echo "... encoding.o"
 	@echo "... encoding.i"
 	@echo "... encoding.s"
-	@echo "... encoding_information.h.o"
-	@echo "... encoding_information.h.i"
-	@echo "... encoding_information.h.s"
+	@echo "... encoding_information.o"
+	@echo "... encoding_information.i"
+	@echo "... encoding_information.s"
 	@echo "... eventlistener.o"
 	@echo "... eventlistener.i"
 	@echo "... eventlistener.s"
@@ -539,6 +572,9 @@ help:
 	@echo "... protos/cockroach/pkg/util/unresolved_addr.pb.o"
 	@echo "... protos/cockroach/pkg/util/unresolved_addr.pb.i"
 	@echo "... protos/cockroach/pkg/util/unresolved_addr.pb.s"
+	@echo "... rocksIO_op.o"
+	@echo "... rocksIO_op.i"
+	@echo "... rocksIO_op.s"
 .PHONY : help
 
 

@@ -10,7 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/roach.dir/protos/cockroach/pkg/util/hlc/timestamp.pb.cc.o"
   "CMakeFiles/roach.dir/protos/cockroach/pkg/util/unresolved_addr.pb.cc.o"
   "CMakeFiles/roach.dir/insert_from_crdb.cpp.o"
-  "CMakeFiles/roach.dir/encoding_information.h.cpp.o"
+  "CMakeFiles/roach.dir/encoding_information.cpp.o"
+  "CMakeFiles/roach.dir/rocksIO_op.cpp.o"
   "libroach.pdb"
   "libroach.a"
 )

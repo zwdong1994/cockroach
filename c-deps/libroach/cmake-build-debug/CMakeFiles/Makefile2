@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /home/victor/workspace/src/github.com/cockroachdb/cockroach/c
 CMakeFiles/roachccl.dir/all: CMakeFiles/roach.dir/all
 	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/depend
 	$(MAKE) -f CMakeFiles/roachccl.dir/build.make CMakeFiles/roachccl.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=14,15,16 "Built target roachccl"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=15,16,17,18,19 "Built target roachccl"
 .PHONY : CMakeFiles/roachccl.dir/all
 
 # Include target in all.
@@ -76,7 +76,7 @@ all: CMakeFiles/roachccl.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/roachccl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 19
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roachccl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/roachccl.dir/rule
@@ -103,7 +103,7 @@ clean: CMakeFiles/roachccl.dir/clean
 CMakeFiles/roach.dir/all:
 	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/depend
 	$(MAKE) -f CMakeFiles/roach.dir/build.make CMakeFiles/roach.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13 "Built target roach"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14 "Built target roach"
 .PHONY : CMakeFiles/roach.dir/all
 
 # Include target in all.
@@ -113,7 +113,7 @@ all: CMakeFiles/roach.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/roach.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 13
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 14
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roach.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/victor/workspace/src/github.com/cockroachdb/cockroach/c-deps/libroach/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/roach.dir/rule

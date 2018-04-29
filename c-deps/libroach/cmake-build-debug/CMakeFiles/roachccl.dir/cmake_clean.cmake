@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/roachccl.dir/ccl/db.cc.o"
   "CMakeFiles/roachccl.dir/insert_from_crdb.cpp.o"
+  "CMakeFiles/roachccl.dir/rocksIO_op.cpp.o"
+  "CMakeFiles/roachccl.dir/encoding_information.cpp.o"
   "libroachccl.pdb"
   "libroachccl.a"
 )
