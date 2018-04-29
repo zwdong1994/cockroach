@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 void get_kv(char *T_name, char *col_name, char *primary, char *primary_name, char *value);
-char* encode_table_colname(char *T_name, char *col_name,char *primary);
+char* encode_(char *T_name, char *col_name,char *primary);
 
 #ifdef __cplusplus
 }

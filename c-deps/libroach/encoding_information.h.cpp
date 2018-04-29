@@ -50,5 +50,15 @@ int encoding_info::insert_table(char *table_name) {
     }
 }
 
+int encoding_info::table_to_primaryname(char *table_name, char* primary_name) {
+    it_str_to_str = table_to_primary.find(table_name);
+    if(it_str_to_str == table_to_primary.end()) {
+        table_to_primary[table_name] = std::string(primary_name);
+        return 0;
+    } else {
+        return 1;
+    }
+}
+
 
 
