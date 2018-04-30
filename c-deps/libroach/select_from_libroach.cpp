@@ -6,7 +6,7 @@
 #include <handle_stmt.h>
 #include <iostream>
 
-void commit_stmts(char *command) {
+void commit_stmts(char *command) { //Get command string from cockroachdb.
 
     //char table_name[30];
     //int column_num;

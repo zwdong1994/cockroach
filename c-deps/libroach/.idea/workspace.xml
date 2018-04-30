@@ -79,8 +79,8 @@
       <file leaf-file-name="select_from_libroach.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/select_from_libroach.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="152">
+              <caret line="8" column="73" lean-forward="false" selection-start-line="8" selection-start-column="73" selection-end-line="8" selection-end-column="73" />
               <folding>
                 <element signature="e#40#73#0" expanded="true" />
               </folding>
@@ -480,12 +480,12 @@
       <workItem from="1524621717164" duration="7156000" />
       <workItem from="1524791395095" duration="8579000" />
       <workItem from="1524886693269" duration="1998000" />
-      <workItem from="1524965015868" duration="23417000" />
+      <workItem from="1524965015868" duration="23570000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41150000" />
+    <option name="totallyTimeSpent" value="41303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="0" />
@@ -974,8 +974,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/select_from_libroach.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="152">
+          <caret line="8" column="73" lean-forward="false" selection-start-line="8" selection-start-column="73" selection-end-line="8" selection-end-column="73" />
           <folding>
             <element signature="e#40#73#0" expanded="true" />
           </folding>
