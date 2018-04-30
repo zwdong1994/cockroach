@@ -17,7 +17,6 @@ package sql
 import (
 	"bytes"
 	"fmt"
-
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 
@@ -33,7 +32,6 @@ import (
 // #cgo CPPFLAGS: -I../../c-deps/libroach/include
 // #cgo CPPFLAGS: -I/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/include
 // #cgo LDFLAGS: -L/home/victor/workspace/native/x86_64-linux-gnu/protobuf -L/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/lib -L/home/victor/workspace/native/x86_64-linux-gnu/snappy -L/home/victor/workspace/native/x86_64-linux-gnu/rocksdb -L/home/victor/workspace/native/x86_64-linux-gnu/libroach
-// #cgo LDFLAGS: -lprotobuf
 // #cgo LDFLAGS: -lrocksdb
 // #cgo LDFLAGS: -lroach
 // #cgo LDFLAGS: -lrt -lpthread
@@ -138,7 +136,7 @@ func (ti *tableInserter) row(
 		}
 
 		for i := 0; i < len(ti.ri.InsertCols); i++ {
-			C.get_kv(C.CString(ti.ri.Helper.TableDesc.Name), C.CString(ti.ri.InsertCols[i].Name),
+			C.insert_kv(C.CString(ti.ri.Helper.TableDesc.Name), C.CString(ti.ri.InsertCols[i].Name),
 				C.CString(values[i].String()), C.CString(primary), C.CString(values[primary_num].String()))
 		}
 		return nil, nil

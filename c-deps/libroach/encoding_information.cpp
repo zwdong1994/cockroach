@@ -29,11 +29,11 @@ encoding_info* encoding_info::Get_encoding_info(){
     return encoding_info_instance;
 }
 
-int encoding_info::insert_colomn_id(char *encode_column) {
+int encoding_info::insert_colomn_id(char *encode_column, char *table_name) {
     it = table_to_col.find(encode_column);
     if(it == table_to_col.end()) { //the column doesn't exist in the table.
-        table_to_col[encode_column] = present_column_id++; //insert column id to table_to_col.
-        return present_column_id - 1;
+        table_to_col[encode_column] = table_to_col_num[table_name] ++; //insert column id to table_to_col.
+        return table_to_col[encode_column];
     } else {
         return table_to_col[encode_column];
     }

@@ -20,6 +20,8 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(roachlib)
 
+#link_libraries("/home/victor/workspace/native/x86_64-linux-gnu/rocksdb/librocksdb.a")
+
 add_library(roach
   db.cc
   encoding.cc
@@ -31,7 +33,8 @@ add_library(roach
   protos/cockroach/pkg/storage/engine/enginepb/rocksdb.pb.cc
   protos/cockroach/pkg/util/hlc/timestamp.pb.cc
   protos/cockroach/pkg/util/unresolved_addr.pb.cc
-  insert_from_crdb.cpp include/encoding_infomation.h encoding_information.h.cpp rocksIO_op.cpp include/rocksIO_op.h)
+  insert_from_crdb.cpp include/encoding_infomation.h
+  encoding_information.cpp rocksIO_op.cpp include/rocksIO_op.h select_from_libroach.cpp include/select_from_libroach.h)
 target_include_directories(roach
   PUBLIC  ./include
   PRIVATE ../protobuf/src ../rocksdb/include protos
@@ -39,8 +42,12 @@ target_include_directories(roach
 
 add_library(roachccl
   ccl/db.cc
-  insert_from_crdb.cpp
 )
+
+add_library(selectstmt
+        select_from_libroach.cpp)
+
+
 target_include_directories(roachccl
   PRIVATE ../rocksdb/include
 )

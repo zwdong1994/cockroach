@@ -7,6 +7,9 @@
 
 #include <rocksdb/db.h>
 #include <cassert>
+#include <rocksdb/write_batch.h>
+#include <iostream>
+
 
 class rocksIO{
 public:

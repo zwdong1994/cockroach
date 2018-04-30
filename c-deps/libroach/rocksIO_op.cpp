@@ -3,8 +3,7 @@
 //
 
 #include "rocksIO_op.h"
-#include "rocksdb/write_batch.h"
-#include <iostream>
+
 
 
 rocksIO::rocksIO() {

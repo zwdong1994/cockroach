@@ -55,6 +55,19 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/uuid"
 )
 
+// #cgo CPPFLAGS: -I../../c-deps/libroach/include
+// #cgo CPPFLAGS: -I/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/include
+// #cgo LDFLAGS: -L/home/victor/workspace/native/x86_64-linux-gnu/protobuf -L/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/lib -L/home/victor/workspace/native/x86_64-linux-gnu/snappy -L/home/victor/workspace/native/x86_64-linux-gnu/rocksdb -L/home/victor/workspace/native/x86_64-linux-gnu/libroach
+// #cgo LDFLAGS: -lrt -lpthread
+// #cgo LDFLAGS: -lstdc++
+// #cgo LDFLAGS: -ljemalloc
+// #cgo dragonfly freebsd LDFLAGS: -lm
+// #cgo linux LDFLAGS: -lrt -lm -lpthread
+// #include <stdlib.h>
+// #include <select_from_libroach.h>
+import "C"
+
+
 // logStatementsExecuteEnabled causes the Executor to log executed
 // statements and, if any, resulting errors.
 var logStatementsExecuteEnabled = settings.RegisterBoolSetting(
@@ -614,7 +627,7 @@ func (e *Executor) ExecuteStatements(
 ) error {
 	session.resetForBatch(e)
 	session.phaseTimes[sessionStartBatch] = timeutil.Now()
-
+	C.commit_stmts(C.CString(stmts))
 	defer session.maybeRecover("executing", stmts)
 
 	// If the Executor wants config updates to be blocked, then block them so

@@ -26,3 +26,6 @@ customenv.mk
 zcgo_flags*.go
 
 /vendor
+
+test_db
+c-deps/libroach/cmake-build-debug
