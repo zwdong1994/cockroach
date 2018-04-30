@@ -8,7 +8,7 @@
 #include <iostream>
 
 typedef struct range{ //For example, the query condition is: lower_limit < variable_name < upper_limit
-    std::string upper_limit;
+    std::string upper_limit;  // * means unlimited.
     std::string lower_limit;
     std::string variable_name;
 }rg;
