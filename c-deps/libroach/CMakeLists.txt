@@ -34,7 +34,8 @@ add_library(roach
   protos/cockroach/pkg/util/hlc/timestamp.pb.cc
   protos/cockroach/pkg/util/unresolved_addr.pb.cc
   insert_from_crdb.cpp include/encoding_infomation.h
-  encoding_information.cpp rocksIO_op.cpp include/rocksIO_op.h select_from_libroach.cpp include/select_from_libroach.h)
+  encoding_information.cpp rocksIO_op.cpp include/rocksIO_op.h select_from_libroach.cpp include/select_from_libroach.h
+        include/query_info.h handle_stmt.cpp include/handle_stmt.h)
 target_include_directories(roach
   PUBLIC  ./include
   PRIVATE ../protobuf/src ../rocksdb/include protos
@@ -44,8 +45,6 @@ add_library(roachccl
   ccl/db.cc
 )
 
-add_library(selectstmt
-        select_from_libroach.cpp)
 
 
 target_include_directories(roachccl
