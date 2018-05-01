@@ -314,7 +314,7 @@ NATIVE_SPECIFIER_TAG := $(subst -,_,$(NATIVE_SPECIFIER))$(STDMALLOC_SUFFIX)
 # build encounters a given `arch_vendor_os_abi` target triple. The Go
 # toolchain does not automatically set target-triple build tags, so these
 # files are only compiled when building with Make.
-CGO_PKGS := cli server/status storage/engine ccl/storageccl/engineccl
+CGO_PKGS := cli server/status storage/engine ccl/storageccl/engineccl sql sql/distsqlrun
 CGO_UNSUFFIXED_FLAGS_FILES := $(addprefix $(PKG_ROOT)/,$(addsuffix /zcgo_flags.go,$(CGO_PKGS)))
 CGO_SUFFIXED_FLAGS_FILES   := $(addprefix $(PKG_ROOT)/,$(addsuffix /zcgo_flags_$(NATIVE_SPECIFIER_TAG).go,$(CGO_PKGS)))
 CGO_FLAGS_FILES := $(CGO_UNSUFFIXED_FLAGS_FILES) $(CGO_SUFFIXED_FLAGS_FILES)
