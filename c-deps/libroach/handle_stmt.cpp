@@ -116,3 +116,4 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
 	}
 
 }
+
