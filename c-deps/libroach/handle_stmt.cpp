@@ -44,7 +44,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
 	std::string cmd(stmt);
 
 	// first pattern, select content from "from [content] where" structure
-	std::regex rmah(R"((from)\s+(.*)\s+(where))");
+	std::regex rmah(R"((from|FROM)\s+(.*)\s+(where|WHERE))");
     std::smatch mah;
     // mah[2] stores the table name required
     if(std::regex_search(cmd, mah, rmah)){
@@ -56,7 +56,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
 	}
 
 	// second pattern, get range information
-	rmah = R"((where)\s+(.*)+([>|<\=])\s+(.*))";
+	rmah = R"((where|WHERE)\s+(.*)+([>|<\=])\s+(.*))";
 	if(std::regex_search(cmd, mah, rmah)){
 		if(mah[3] == ">"){
 			range_q.lower_limit = mah[4];
@@ -80,7 +80,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
 	}
 
 	// final pattern, get column information
-	rmah = R"((select)\s+(.*)\s+(from))";
+	rmah = R"((select|SELECT)\s+(.*)\s+(from|FROM))";
 	if(std::regex_search(cmd, mah, rmah)){
 		// mah[2] stores all column we selected
 		cmd = mah[2];
