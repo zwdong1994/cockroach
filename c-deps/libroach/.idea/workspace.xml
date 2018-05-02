@@ -78,8 +78,8 @@
       <file leaf-file-name="select_from_libroach.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/select_from_libroach.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2539">
-              <caret line="210" column="0" lean-forward="true" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
+            <state relative-caret-position="437">
+              <caret line="89" column="42" lean-forward="true" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
               <folding>
                 <element signature="e#40#73#0" expanded="true" />
               </folding>
@@ -113,8 +113,8 @@
       <file leaf-file-name="handle_stmt.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/handle_stmt.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+            <state relative-caret-position="306">
+              <caret line="42" column="25" lean-forward="true" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
               <folding>
                 <element signature="e#78#102#0" expanded="true" />
               </folding>
@@ -173,8 +173,8 @@
         <option value="$PROJECT_DIR$/encoding_information.cpp" />
         <option value="$PROJECT_DIR$/db.cc" />
         <option value="$PROJECT_DIR$/insert_from_crdb.cpp" />
-        <option value="$PROJECT_DIR$/handle_stmt.cpp" />
         <option value="$PROJECT_DIR$/include/select_from_libroach.h" />
+        <option value="$PROJECT_DIR$/handle_stmt.cpp" />
         <option value="$PROJECT_DIR$/select_from_libroach.cpp" />
       </list>
     </option>
@@ -465,12 +465,12 @@
       <workItem from="1524621717164" duration="7156000" />
       <workItem from="1524791395095" duration="8579000" />
       <workItem from="1524886693269" duration="1998000" />
-      <workItem from="1524965015868" duration="56612000" />
+      <workItem from="1524965015868" duration="58914000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74345000" />
+    <option name="totallyTimeSpent" value="76647000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="0" />
@@ -886,49 +886,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/encoding_information.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="78" column="6" lean-forward="false" selection-start-line="78" selection-start-column="6" selection-end-line="78" selection-end-column="6" />
-          <folding>
-            <element signature="e#40#72#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/query_info.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/handle_stmt.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-          <folding>
-            <element signature="e#78#102#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/c++/5/bits/basic_string.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="458">
           <caret line="2311" column="6" lean-forward="false" selection-start-line="2311" selection-start-column="6" selection-end-line="2311" selection-end-column="6" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/insert_from_crdb.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-          <folding>
-            <element signature="e#40#59#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -969,10 +931,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/encoding_information.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="78" column="6" lean-forward="false" selection-start-line="78" selection-start-column="6" selection-end-line="78" selection-end-column="6" />
+          <folding>
+            <element signature="e#40#72#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/insert_from_crdb.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="36" lean-forward="false" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+          <folding>
+            <element signature="e#40#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/query_info.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handle_stmt.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="42" column="25" lean-forward="true" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+          <folding>
+            <element signature="e#78#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/select_from_libroach.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2539">
-          <caret line="210" column="0" lean-forward="true" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
+        <state relative-caret-position="437">
+          <caret line="89" column="42" lean-forward="true" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
           <folding>
             <element signature="e#40#73#0" expanded="true" />
           </folding>

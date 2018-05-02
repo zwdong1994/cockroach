@@ -22,7 +22,7 @@
  *  By using regex, we could neglect all the space input.
  *  NOTICE: query range must be writen as var op num, e.g. ab < 9 or bc > 10 or ef = 11
  *
- *  example:
+ *  examle:
 			char *command = "select ab,cd,ef,gh ,  hg,  id from tbl where ab < 9";
 			char table_name[30];
 			int column_num;
@@ -55,7 +55,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
    }
 
    // second pattern, get range information
-   rmah = R"((where|WHERE)\s+(.*)+([>|<\=])\s+(.*))";
+   rmah = R"((where|WHERE)\s+(.*)+([>|<\=])\s+(.*)+\W)";
    if(std::regex_search(cmd, mah, rmah)){
       if(mah[3] == ">"){
          range_q.lower_limit = mah[4];

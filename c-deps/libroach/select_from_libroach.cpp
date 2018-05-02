@@ -87,18 +87,18 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
 
     it = rocks_op -> get_iter();
     std::cout << command << std::endl;
-    q_col_name = handle_stmt(command,range_q, table_name, column_num);
+    q_col_name = handle_stmt(command, range_q, table_name, column_num);
     if(q_col_name == NULL)
         return;
     set_current_T_name(table_name);
     std::cout << "upper: " << range_q.upper_limit << "lower: " << range_q.lower_limit << std::endl;
     mid_str = enc_info -> table_to_primary[table_name]; // mid str represent the primary column name.
     std::cout << "mid_str: " << mid_str << "   range_q: " << range_q.variable_name << std::endl;
-    return ;
+
     if(mid_str.compare(range_q.variable_name)) { // if the query variable is primary key.
         for(int i = 0; i < column_num; i++){
             int q_col_id;
-            std::cout << range_q.lower_limit << std::endl;
+            //std::cout << range_q.lower_limit << std::endl;
             if(range_q.lower_limit != "*")
                 strcpy(encode_str_lower, encode_colid(table_name, q_col_name[i].column_name.data(), range_q.lower_limit.data(), q_col_id));
             else
@@ -124,8 +124,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                         continue;
                     if(atoi(primary) <= atoi(range_q.lower_limit.data()))
                         continue;
-                    std::cout << "key: " << key << std::endl;
-                    std::cout << "value: " << value << std::endl;
+                    //std::cout << "key: " << key << std::endl;
+                    //std::cout << "value: " << value << std::endl;
                     if(g_res -> primary_to_id[primary] == 0)
                         g_res -> primary_to_id[primary] = g_res -> present_id ++;
                     primary_id = g_res -> primary_to_id[primary];
@@ -158,8 +158,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                         continue;
                     if(atoi(primary) >= atoi(range_q.upper_limit.data()))
                         continue;
-                    std::cout << "key: " << key << std::endl;
-                    std::cout << "value: " << value << std::endl;
+                    //std::cout << "key: " << key << std::endl;
+                    //std::cout << "value: " << value << std::endl;
                     if(g_res -> primary_to_id[primary] == 0)
                         g_res -> primary_to_id[primary] = g_res -> present_id ++;
                     primary_id = g_res -> primary_to_id[primary];
@@ -182,8 +182,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     primary[strlen(primary) - 1] = 0;
                     key = encode_str_lower;
                     rocks_op -> kv_read(encode_str_lower, value);
-                    std::cout << "key: " << key << std::endl;
-                    std::cout << "value: " << value << std::endl;
+                    //std::cout << "key: " << key << std::endl;
+                    //std::cout << "value: " << value << std::endl;
                     if(g_res -> primary_to_id[primary] == 0)
                         g_res -> primary_to_id[primary] = g_res -> present_id ++;
                     primary_id = g_res -> primary_to_id[primary];
