@@ -114,5 +114,5 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
 		std::cout << "column input error" << std::endl;
 		return NULL;
 	}
-}
+
 }
