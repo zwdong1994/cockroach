@@ -8,6 +8,8 @@
 #include <map>
 #include <iostream>
 
+
+
 class encoding_info {
 public:
     static encoding_info *Get_encoding_info();
@@ -19,6 +21,8 @@ public:
     int insert_colomn_id(char *encode_column, char *table_name);
     int insert_table(char *table_name);
     int table_to_primaryname(char *table_name, char *primary_name);
+
+
 
 private:
 
@@ -33,5 +37,8 @@ private:
     encoding_info& operator = (encoding_info const&);
     ~encoding_info();
 };
+
+char* encode_(char *T_name, const char *col_name, const char *primary);
+char* encode_colid(char *T_name, const char *col_name, const char *primary, int &col);
 
 #endif //ROACHLIB_ENCODING_INFOMATION_H

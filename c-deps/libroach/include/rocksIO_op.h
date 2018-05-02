@@ -18,7 +18,8 @@ public:
 
     int kv_write(char *key, char *value);
     int kv_read(char *key, std::string &value);
-
+    rocksdb::Iterator* get_iter();
+    rocksdb::Iterator* it;
 
 private:
 

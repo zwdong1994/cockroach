@@ -10,6 +10,7 @@ rocksIO::rocksIO() {
     options.create_if_missing = true;
     //options.error_if_exists = true;
     rocksdb::Status status = rocksdb::DB::Open(options, "test_db", &db);
+    it = db->NewIterator(rocksdb::ReadOptions());
     assert(status.ok());
 }
 
@@ -53,5 +54,9 @@ int rocksIO::kv_read(char *key, std::string &value) {
         return 1;
     }
     return 0;
+}
+
+rocksdb::Iterator *rocksIO::get_iter() {
+    return it;
 }
 

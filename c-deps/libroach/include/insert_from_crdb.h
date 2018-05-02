@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 void insert_kv(char *T_name, char *col_name, char *primary, char *primary_name, char *value);
-char* encode_(char *T_name, char *col_name,char *primary);
+
 
 #ifdef __cplusplus
 }

@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char Tid_col[30];
+char encode_str[100]; // This is the encoded key, which is consist of /table_id/column_id/primary_key.
+
 encoding_info::encoding_info() {
     present_table_id = 1;
     present_column_id = 0;
@@ -61,4 +64,27 @@ int encoding_info::table_to_primaryname(char *table_name, char* primary_name) {
 }
 
 
+char* encode_(char *T_name, const char *col_name, const char *primary){
+    int table_id;
+    int col_id;
+    encoding_info *enc_info = encoding_info::Get_encoding_info();
+    table_id = enc_info -> insert_table(T_name); //get table id.
+    sprintf(Tid_col, "/%d/%s/", table_id, col_name);
+    col_id = enc_info -> insert_colomn_id(Tid_col, T_name); //get column id
+    sprintf(encode_str, "/%d/%d/%s/", table_id, col_id, primary);
+    //std::cout << encode_str << enc_info -> table_to_col_num[T_name] << std::endl;
+    return encode_str;
+}
 
+char* encode_colid(char *T_name, const char *col_name, const char *primary, int &col){
+    int table_id;
+    int col_id;
+    encoding_info *enc_info = encoding_info::Get_encoding_info();
+    table_id = enc_info -> insert_table(T_name); //get table id.
+    sprintf(Tid_col, "/%d/%s/", table_id, col_name);
+    col_id = enc_info -> insert_colomn_id(Tid_col, T_name); //get column id
+    col = col_id;
+    sprintf(encode_str, "/%d/%d/%s/", table_id, col_id, primary);
+    //std::cout << encode_str << enc_info -> table_to_col_num[T_name] << std::endl;
+    return encode_str;
+}
