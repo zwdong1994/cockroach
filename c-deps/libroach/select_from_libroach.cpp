@@ -90,12 +90,20 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     q_col_name = handle_stmt(command, range_q, table_name, column_num);
     if(q_col_name == NULL)
         return;
-    set_current_T_name(table_name);
-    std::cout << "upper: " << range_q.upper_limit << "lower: " << range_q.lower_limit << std::endl;
-    mid_str = enc_info -> table_to_primary[table_name]; // mid str represent the primary column name.
-    std::cout << "mid_str: " << mid_str << "   range_q: " << range_q.variable_name << std::endl;
+    //std::cout << "table name: " << table_name << std::endl;
 
-    if(mid_str.compare(range_q.variable_name)) { // if the query variable is primary key.
+    set_current_T_name(table_name);
+
+    //std::cout << "range_q.variable_name: " << range_q.variable_name << std::endl;
+    //std::cout << "range_q.low: " << range_q.lower_limit << std::endl;
+    //std::cout << "range_q.up: " << range_q.upper_limit << std::endl;
+
+    enc_info -> get_primaryname(table_name, mid_str); // mid str represent the primary column name.
+
+    //std::cout << "mid_str: " << mid_str << std::endl;
+    
+    std::cout << mid_str.compare(range_q.variable_name) << std::endl;
+    if(mid_str.compare(range_q.variable_name) == 0) { // if the query variable is primary key.
         for(int i = 0; i < column_num; i++){
             int q_col_id;
             //std::cout << range_q.lower_limit << std::endl;

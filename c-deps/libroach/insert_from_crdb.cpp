@@ -16,10 +16,11 @@ void insert_kv(char *T_name, char *col_name, char *value, char *primary_name, ch
     std::string str;
     encoding_info *enc_info = encoding_info::Get_encoding_info();
     rocksIO* rocks_op = rocksIO::Get_rocksIO();
+    //std::cout << primary_name << std::endl;
     enc_info -> table_to_primaryname(T_name, primary_name);
     encode_s = encode_(T_name, col_name, primary);
     rocks_op -> kv_write(encode_s, value);
-    rocks_op -> kv_read(encode_s, str);
+    //rocks_op -> kv_read(encode_s, str);
     //std::cout << str << std::endl;
 
 }

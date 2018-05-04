@@ -40,78 +40,78 @@
  */
 
 qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
-   std::string cmd(stmt);
+    std::string cmd(stmt);
 
-   // first pattern, select content from "from [content] where" structure
-   std::regex rmah(R"((from|FROM)\s+(.*)\s+(where|WHERE))");
-   std::smatch mah;
-   // mah[2] stores the table name required
-   if(std::regex_search(cmd, mah, rmah)){
-      strcpy(table, mah.str(2).c_str());
-   }
-   else{
-      std::cout << "table name input error" << std::endl;
-      return NULL;
-   }
+    // first pattern, select content from "from [content] where" structure
+    std::regex rmah(R"((from|FROM)\s+(.*)\s+(where|WHERE))");
+    std::smatch mah;
+    // mah[2] stores the table name required
+    if(std::regex_search(cmd, mah, rmah)){
+        strcpy(table, mah.str(2).c_str());
+    }
+    else{
+        std::cout << "table name input error" << std::endl;
+        return NULL;
+    }
 
-   // second pattern, get range information
-   rmah = R"((where|WHERE)\s+(.*)+([>|<\=])\s+(.*)+\W)";
-   if(std::regex_search(cmd, mah, rmah)){
-      if(mah[3] == ">"){
-         range_q.lower_limit = mah[4];
-         range_q.upper_limit = "*";
-         range_q.variable_name = mah[2];
-      }
-      else if(mah[3] == "<"){
-         range_q.lower_limit = "*";
-         range_q.upper_limit = mah[4];
-         range_q.variable_name = mah[2];
-      }
-      else if(mah[3] == "="){
-         range_q.lower_limit = mah[4];
-         range_q.upper_limit = mah[4];
-         range_q.variable_name = mah[2];
-      }
-   }
-   else{
-      std::cout << "range input error" << std::endl;
-      return NULL;
-   }
+    // second pattern, get range information
+    rmah = R"((where|WHERE)\s+(.+)\s+([>|<\=])\s+(\d+)+(;))";
+    if(std::regex_search(cmd, mah, rmah)){
+        if(mah[3] == ">"){
+            range_q.lower_limit = mah[4];
+            range_q.upper_limit = "*";
+            range_q.variable_name = mah[2];
+        }
+        else if(mah[3] == "<"){
+            range_q.lower_limit = "*";
+            range_q.upper_limit = mah[4];
+            range_q.variable_name = mah[2];
+        }
+        else if(mah[3] == "="){
+            range_q.lower_limit = mah[4];
+            range_q.upper_limit = mah[4];
+            range_q.variable_name = mah[2];
+        }
+    }
+    else{
+        std::cout << "range input error" << std::endl;
+        return NULL;
+    }
 
-   // final pattern, get column information
-   rmah = R"((select|SELECT)\s+(.*)\s+(from|FROM))";
-   if(std::regex_search(cmd, mah, rmah)){
-      // mah[2] stores all column we selected
-      cmd = mah[2];
+    // final pattern, get column information
+    rmah = R"((select|SELECT)\s+(.*)\s+(from|FROM))";
+    if(std::regex_search(cmd, mah, rmah)){
+        // mah[2] stores all column we selected
+        cmd = mah[2];
 
-      // pattern to seperate column information by comma
-      rmah = R"((\w+\(.+\))|\w+)";
-      int count = 0;
-      // use temperory sp to store columns
-      std::string *sp = new std::string[10];
+        // pattern to seperate column information by comma
+        rmah = R"((\w+\(.+\))|\w+)";
+        int count = 0;
+        // use temperory sp to store columns
+        std::string *sp = new std::string[10];
 
-      // do regex for a second time, extract every column out
-      std::regex_iterator<std::string::iterator> rit ( cmd.begin(), cmd.end(), rmah );
-      std::regex_iterator<std::string::iterator> rnd;
-      while (rit!=rnd) {
-         sp[count] = rit->str();
-         ++rit;
-         ++count;
-      }
+        // do regex for a second time, extract every column out
+        std::regex_iterator<std::string::iterator> rit ( cmd.begin(), cmd.end(), rmah );
+        std::regex_iterator<std::string::iterator> rnd;
+        while (rit!=rnd) {
+            sp[count] = rit->str();
+            ++rit;
+            ++count;
+        }
 
-      // write count into col_num
-      col_num = count;
-      // transfer sp to qci structure qci
-      qci *q_col_name = new qci[count];
-      for(int i=0;i<count;i++)
-         q_col_name[i].column_name = sp[i];
+        // write count into col_num
+        col_num = count;
+        // transfer sp to qci structure qci
+        qci *q_col_name = new qci[count];
+        for(int i=0;i<count;i++)
+            q_col_name[i].column_name = sp[i];
 
-      delete[] sp; // free sp
-      return q_col_name;
-   }
-   else{
-      std::cout << "column input error" << std::endl;
-      return NULL;
-   }
+        delete[] sp; // free sp
+        return q_col_name;
+    }
+    else{
+        std::cout << "column input error" << std::endl;
+        return NULL;
+    }
 
 }
