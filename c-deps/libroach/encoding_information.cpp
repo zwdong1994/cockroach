@@ -64,16 +64,21 @@ int encoding_info::table_to_primaryname(char *table_name, char* primary_name) {
     }
 }
 
-void encoding_info::get_primaryname(char *table_name, std::string &primary_name) {
+int encoding_info::get_primaryname(char *table_name, std::string &primary_name) {
     it_str_to_str = table_to_primary.find(table_name);
     if(it_str_to_str == table_to_primary.end()) {
-        return;
+        return 0;
         //table_to_primary[table_name] = std::string(primary_name);
         //std::cout << "Table name: " << table_name << "  Primary name: " << table_to_primary[table_name] << std::endl;
 
     } else {
         primary_name = table_to_primary[table_name];
+        return 1;
     }
+}
+
+int encoding_info::get_column_num(const char *table_name) {
+    return table_to_col_num[table_name];
 }
 
 

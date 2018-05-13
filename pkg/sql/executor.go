@@ -2023,6 +2023,43 @@ func (e *Executor) execClassic(
 		rowResultWriter.IncrementRowsAffected(count)
 
 	case parser.Rows:
+		//fmt.Println("params: ", params)
+		//str := "sadfas"
+		var result C.DBString
+		var res_info C.DBres
+		C.get_result_num(&res_info)
+		//fmt.Println(res_info.column_num, res_info.result_num)
+
+		//fmt.Println("result: ", C.GoStringN(result.data, result.len))
+
+		v := parser.Datums{}
+		v = make([]parser.Datum, 5)
+		var i C.int
+		var j C.int
+		for i = 0; i < res_info.result_num; i++ {
+			//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
+			for j = 0 ; j < res_info.total_col_num; j++{
+				v[j] = parser.NewDString("1")
+			}
+			for j = 0; j < res_info.column_num; j++ {
+				C.push_result(&result, 1, 1)
+				v[result.col_id] = parser.NewDString(C.GoStringN(result.data, result.len))
+
+			}
+
+			//fmt.Println(v)
+			rowResultWriter.AddRow(ctx, v)
+	}
+		//col_num := result.col_id
+		//v[col_num] = parser.NewDString(C.GoStringN(result.data, result.len))
+		//fmt.Println(v)
+
+
+		//testinsert := parser.Datums{parser.NewDString("2 1533.6 2 1 'Charlie X'")}
+
+
+		return nil
+
 		err := forEachRow(params, plan, func(values parser.Datums) error {
 			for _, val := range values {
 				if err := checkResultType(val.ResolvedType()); err != nil {

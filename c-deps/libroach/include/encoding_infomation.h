@@ -21,7 +21,8 @@ public:
     int insert_colomn_id(char *encode_column, char *table_name);
     int insert_table(char *table_name);
     int table_to_primaryname(char *table_name, char *primary_name);
-    void get_primaryname(char *table_name, std::string &primary_name);
+    int get_primaryname(char *table_name, std::string &primary_name);
+    int get_column_num(const char *table_name);
 
 
 

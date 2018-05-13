@@ -50,7 +50,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
         strcpy(table, mah.str(2).c_str());
     }
     else{
-        std::cout << "table name input error" << std::endl;
+        //std::cout << "table name input error" << std::endl;
         return NULL;
     }
 

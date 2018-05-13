@@ -14,11 +14,18 @@ extern "C" {
 typedef struct result_num_info{
     int result_num;
     int column_num;
+    int total_col_num;
 }DBres;
 
+typedef struct {
+    char* data;
+    int len;
+    int col_id;
+} DBString;
+
 void commit_stmts(char *command);
-void get_result_num(DBres** res);
-void push_result(char *result, int result_num, int column_num);
+void get_result_num(DBres* res);
+void push_result(DBString *result, int result_num, int column_num);
 
 #ifdef __cplusplus
 }
