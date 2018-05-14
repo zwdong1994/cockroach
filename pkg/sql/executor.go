@@ -2033,14 +2033,12 @@ func (e *Executor) execClassic(
 		//fmt.Println("result: ", C.GoStringN(result.data, result.len))
 
 		v := parser.Datums{}
-		v = make([]parser.Datum, 5)
+		v = make([]parser.Datum, res_info.column_num)
 		var i C.int
 		var j C.int
 		for i = 0; i < res_info.result_num; i++ {
 			//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
-			for j = 0 ; j < res_info.total_col_num; j++{
-				v[j] = parser.NewDString("1")
-			}
+
 			for j = 0; j < res_info.column_num; j++ {
 				C.push_result(&result, 1, 1)
 				v[result.col_id] = parser.NewDString(C.GoStringN(result.data, result.len))

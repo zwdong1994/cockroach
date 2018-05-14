@@ -34,6 +34,7 @@ public:
     std::string current_table_name;
     void delete_res();
     row_result *p;
+    char temp_result[200];
 
 private:
 
@@ -135,7 +136,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
             //std::cout << "temp_colid: " << temp_colid << std::endl;
             sprintf(Tid_colid, "/%d/%d/", temp_tid, temp_colid);
             if(encode_str_lower[0] != 0 && encode_str_upper[0] == 0){  // x > lower
-
+                //std::cout << ">>>>>>>>>>" << std::endl;
                 for (it->Seek(Tid_colid); it->Valid() ; it->Next()) {
                     key = it->key().ToString();
                     value = it->value().ToString();
@@ -262,7 +263,7 @@ void push_result(DBString *result, int result_num, int column_num) { //Push the 
             //std::cout << " column id: " << g_res -> p ->column_n << "  result: " << g_res -> p -> result << std::endl;
             result -> col_id = g_res -> p -> column_n;
             result->len = strlen(g_res -> p -> result.data());
-            result->data = static_cast<char*>(malloc(result->len+1));
+            result->data = g_res -> temp_result;
             strcpy(result -> data, g_res -> p -> result.data());
             g_res -> p = g_res -> p -> next;
             return;
