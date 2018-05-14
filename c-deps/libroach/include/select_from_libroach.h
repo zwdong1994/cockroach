@@ -5,7 +5,7 @@
 #ifndef ROACHLIB_SELECT_FROM_LIBROACH_H
 #define ROACHLIB_SELECT_FROM_LIBROACH_H
 
-
+#include <rocksIO_op.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,8 +31,9 @@ void push_result(DBString *result, int result_num, int column_num);
 }
 #endif
 
+bool SplitKey_(rocksdb::Slice buf, rocksdb::Slice *key, rocksdb::Slice *timestamp);
 
-
+int Compare_(const rocksdb::Slice &a, const rocksdb::Slice &b);
 
 
 #endif //ROACHLIB_SELECT_FROM_LIBROACH_H

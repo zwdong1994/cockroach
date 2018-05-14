@@ -8,9 +8,13 @@
 
 rocksIO::rocksIO() {
     options.create_if_missing = true;
+    /*options.write_buffer_size = 64 << 20; // 64 MB
+    options.max_write_buffer_number = 4;
+    options.optimize_filters_for_hits = true;
+    options.wal_bytes_per_sync = 256 << 10;   // 256 KB*/
     //options.error_if_exists = true;
     rocksdb::Status status = rocksdb::DB::Open(options, "test_db", &db);
-    it = db->NewIterator(rocksdb::ReadOptions());
+
     assert(status.ok());
 }
 
@@ -57,6 +61,11 @@ int rocksIO::kv_read(char *key, std::string &value) {
 }
 
 rocksdb::Iterator *rocksIO::get_iter() {
+    rocksdb::ReadOptions opts;
+    bool prefix = 0;
+    opts.prefix_same_as_start = prefix;
+    opts.total_order_seek = !prefix;
+    it = db->NewIterator(opts);
     return it;
 }
 

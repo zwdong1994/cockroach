@@ -8,7 +8,12 @@
 #include <map>
 #include <iostream>
 
-
+typedef struct row_result{
+    std::string result;
+    int column_n;
+    struct row_result *next;
+    int flag;
+}row_res;
 
 class encoding_info {
 public:
@@ -24,7 +29,13 @@ public:
     int get_primaryname(char *table_name, std::string &primary_name);
     int get_column_num(const char *table_name);
 
+    row_res *allocate_pool_head;
+    row_res *delete_pool_head;
 
+    void ini_pool();
+    void destory_pool();
+    row_res* malloc_rbs();
+    inline int free_rbs(row_res *f_rbs);
 
 private:
 

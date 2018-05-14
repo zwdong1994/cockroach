@@ -13,10 +13,11 @@ char encode_str[100]; // This is the encoded key, which is consist of /table_id/
 encoding_info::encoding_info() {
     present_table_id = 1;
     present_column_id = 0;
+    ini_pool();
 }
 
 encoding_info::~encoding_info() {
-
+    destory_pool();
 }
 
 encoding_info* encoding_info::encoding_info_instance = NULL;
@@ -79,6 +80,67 @@ int encoding_info::get_primaryname(char *table_name, std::string &primary_name) 
 
 int encoding_info::get_column_num(const char *table_name) {
     return table_to_col_num[table_name];
+}
+
+void encoding_info::ini_pool() {
+    int i = 0;
+    row_res *new_alloc = NULL;
+    allocate_pool_head = NULL;
+    delete_pool_head = NULL;
+
+    for(; i < 200000; ++i){
+        new_alloc = new row_res;
+        new_alloc -> next = allocate_pool_head;
+        new_alloc -> flag = 0;
+        allocate_pool_head = new_alloc;
+    }
+}
+
+void encoding_info::destory_pool() {
+    row_res *ap = allocate_pool_head, *hp = allocate_pool_head -> next;
+    row_res *dp = delete_pool_head, *dhp = delete_pool_head -> next;
+
+
+    while(ap != NULL){
+        delete ap;
+        ap = hp;
+        if(hp != NULL)
+            hp = hp ->next;
+    }
+
+    while(dp != NULL){
+        delete dp;
+        dp = dhp;
+        if(dhp != NULL)
+            dhp = dhp -> next;
+    }
+
+}
+
+row_res *encoding_info::malloc_rbs() {
+    row_res *alloc_node = NULL;
+    if(allocate_pool_head != NULL) {
+        alloc_node = allocate_pool_head;
+        allocate_pool_head = allocate_pool_head -> next;
+        alloc_node -> flag = 1;
+        alloc_node->next = NULL;
+    }
+    else{
+        allocate_pool_head = delete_pool_head;
+        delete_pool_head = NULL;
+        alloc_node = allocate_pool_head;
+        allocate_pool_head = allocate_pool_head -> next;
+        alloc_node -> next = NULL;
+        alloc_node -> flag = 1;
+    }
+    return alloc_node;
+}
+
+int encoding_info::free_rbs(row_res *f_rbs) {
+    f_rbs -> next = delete_pool_head;
+    f_rbs -> flag = 0;
+    delete_pool_head = f_rbs;
+    return 0;
 }
 
 
