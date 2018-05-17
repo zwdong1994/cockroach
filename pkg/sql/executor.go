@@ -626,7 +626,9 @@ func (e *Executor) ExecuteStatements(
 ) error {
 	session.resetForBatch(e)
 	session.phaseTimes[sessionStartBatch] = timeutil.Now()
+
 	C.commit_stmts(C.CString(stmts))
+
 	defer session.maybeRecover("executing", stmts)
 
 	// If the Executor wants config updates to be blocked, then block them so
@@ -2023,14 +2025,11 @@ func (e *Executor) execClassic(
 		rowResultWriter.IncrementRowsAffected(count)
 
 	case parser.Rows:
-		//fmt.Println("params: ", params)
-		//str := "sadfas"
+
 		var result C.DBString
 		var res_info C.DBres
-		C.get_result_num(&res_info)
-		//fmt.Println(res_info.column_num, res_info.result_num)
 
-		//fmt.Println("result: ", C.GoStringN(result.data, result.len))
+		C.get_result_num(&res_info)
 
 		v := parser.Datums{}
 		v = make([]parser.Datum, res_info.column_num)
