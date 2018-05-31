@@ -4,11 +4,13 @@
 
 #include "encoding_infomation.h"
 #include <iostream>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 char Tid_col[30];
 char encode_str[100]; // This is the encoded key, which is consist of /table_id/column_id/primary_key.
+char mid_p[MAX_PRIMARY_LENGTH + 1];
 
 encoding_info::encoding_info() {
     present_table_id = 1;
@@ -83,12 +85,12 @@ int encoding_info::get_column_num(const char *table_name) {
 }
 
 void encoding_info::ini_pool() {
-    int i = 0;
+    unsigned long long i = 0;
     row_res *new_alloc = NULL;
     allocate_pool_head = NULL;
     delete_pool_head = NULL;
 
-    for(; i < 200000; ++i){
+    for(; i < 2000000; ++i){
         new_alloc = new row_res;
         new_alloc -> next = allocate_pool_head;
         new_alloc -> flag = 0;
@@ -147,11 +149,14 @@ int encoding_info::free_rbs(row_res *f_rbs) {
 char* encode_(char *T_name, const char *col_name, const char *primary){
     int table_id;
     int col_id;
+    ini_p(mid_p);
+    mid_p[MAX_PRIMARY_LENGTH] = 0;
+    strcpy(mid_p + MAX_PRIMARY_LENGTH - strlen(primary), primary);
     encoding_info *enc_info = encoding_info::Get_encoding_info();
     table_id = enc_info -> insert_table(T_name); //get table id.
     sprintf(Tid_col, "/%d/%s/", table_id, col_name);
     col_id = enc_info -> insert_colomn_id(Tid_col, T_name); //get column id
-    sprintf(encode_str, "/%d/%d/%s/", table_id, col_id, primary);
+    sprintf(encode_str, "/%d/%d/%s", table_id, col_id, mid_p);
     //std::cout << encode_str << enc_info -> table_to_col_num[T_name] << std::endl;
     return encode_str;
 }
@@ -159,12 +164,21 @@ char* encode_(char *T_name, const char *col_name, const char *primary){
 char* encode_colid(char *T_name, const char *col_name, const char *primary, int &col){
     int table_id;
     int col_id;
+    ini_p(mid_p);
+    mid_p[MAX_PRIMARY_LENGTH] = 0;
+    strcpy(mid_p + MAX_PRIMARY_LENGTH - strlen(primary), primary);
     encoding_info *enc_info = encoding_info::Get_encoding_info();
     table_id = enc_info -> insert_table(T_name); //get table id.
     sprintf(Tid_col, "/%d/%s/", table_id, col_name);
     col_id = enc_info -> insert_colomn_id(Tid_col, T_name); //get column id
     col = col_id;
-    sprintf(encode_str, "/%d/%d/%s/", table_id, col_id, primary);
+    sprintf(encode_str, "/%d/%d/%s", table_id, col_id, mid_p);
     //std::cout << encode_str << enc_info -> table_to_col_num[T_name] << std::endl;
     return encode_str;
+}
+
+void ini_p(char *s) {
+    for(int i = 0; i < MAX_PRIMARY_LENGTH; ++i) {
+        s[i] = '0';
+    }
 }

@@ -22,10 +22,10 @@ public:
     static get_res *Get_get_res();
     static get_res *get_res_instance;
 
-    std::map<int, row_res *> primaryid_to_result;
-    std::map<std::string, int> primary_to_id;
-    std::map<std::string, int>::iterator p2id_iter;
-    int present_id;
+    std::map<unsigned long long, row_res *> primaryid_to_result;
+    std::map<std::string, unsigned long long> primary_to_id;
+    std::map<std::string, unsigned long long>::iterator p2id_iter;
+    unsigned long long present_id;
     res_info r_info;
     std::string current_table_name;
     void delete_res();
@@ -80,8 +80,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     char encode_str_upper[100];
     int column_num;
     int temp_tid, temp_colid, seek_tid, seek_colid;
-    int primary_id;
-    char primary[20];
+    unsigned long long primary_id;
+    char primary[MAX_PRIMARY_LENGTH + 1];
     std::string key, value;
     char key_char[100];
     char select[7] = "select";
@@ -132,32 +132,31 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                 encode_str_upper[0] = 0;
             //std::cout << q_col_name[i].column_name << std::endl;
             if(encode_str_lower[0] != 0)
-                sscanf(encode_str_lower, "/%d/%d/%s/", &temp_tid, &temp_colid, primary);
+                sscanf(encode_str_lower, "/%d/%d/%s", &temp_tid, &temp_colid, primary);
             if(encode_str_upper[0] != 0)
-                sscanf(encode_str_upper, "/%d/%d/%s/", &temp_tid, &temp_colid, primary);
+                sscanf(encode_str_upper, "/%d/%d/%s", &temp_tid, &temp_colid, primary);
 
             //std::cout << "temp_colid: " << temp_colid << std::endl;
 
             sprintf(Tid_colid, "/%d/%d/", temp_tid, temp_colid);
             if(encode_str_lower[0] != 0 && encode_str_upper[0] == 0){  // x > lower
                 //std::cout << ">>>>>>>>>>" << std::endl;
-                for (it->Seek(Tid_colid); it->Valid() ; it->Next()) {
+                for (it->Seek(encode_str_lower); it->Valid() ; it->Next()) {
                     key = it->key().ToString();
 
 
                     //std::cout << key << std::endl;
 
                     strcpy(key_char, key.data());
-                    sscanf(key_char, "/%d/%d/%s/", &seek_tid, &seek_colid, primary); // get the primary key.
+                    sscanf(key_char, "/%d/%d/%s", &seek_tid, &seek_colid, primary); // get the primary key.
                     if(seek_tid != temp_tid || seek_colid != temp_colid)
                         continue;
-                    primary[strlen(primary) - 1] = 0;
+                    primary[MAX_PRIMARY_LENGTH] = 0;
                     //std::cout << "primary: " << atoi(primary) << std:: endl;
                     //std::cout << "lower: " << atoi(range_q.lower_limit.data()) << std::endl;
                     if(seek_colid != q_col_id)
                         continue;
-                    if(atoi(primary) <= atoi(range_q.lower_limit.data()))
-                        continue;
+
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
                     g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
@@ -178,23 +177,23 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     }
                 }
             } else if(encode_str_lower[0] == 0 && encode_str_upper[0] != 0) { // x < upper
-                for (it->Seek(Tid_colid); it->Valid() ; it->Next()) {
-                    key = it->key().ToString();
+                for (it->Seek(Tid_colid); it->Valid() && (key = it->key().ToString()).compare(encode_str_upper) < 0 ; it->Next()) {
+
 
 
                     //std::cout << key << std::endl;
+                    //std::cout << encode_str_upper << std::endl;
 
                     strcpy(key_char, key.data());
-                    sscanf(key_char, "/%d/%d/%s/", &seek_tid, &seek_colid, primary); // get the primary key.
+                    sscanf(key_char, "/%d/%d/%s", &seek_tid, &seek_colid, primary); // get the primary key.
                     if(seek_tid != temp_tid || seek_colid != temp_colid)
                         continue;
-                    primary[strlen(primary) - 1] = 0;
+                    primary[MAX_PRIMARY_LENGTH] = 0;
                     //std::cout << "primary: " << atoi(primary) << std:: endl;
                     //std::cout << "lower: " << atoi(range_q.lower_limit.data()) << std::endl;
                     if(seek_colid != q_col_id)
                         continue;
-                    if(atoi(primary) >= atoi(range_q.upper_limit.data()))
-                        continue;
+
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
                     g_res -> p2id_iter = g_res -> primary_to_id.find(primary);

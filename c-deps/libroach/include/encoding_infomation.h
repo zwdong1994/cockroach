@@ -8,6 +8,8 @@
 #include <map>
 #include <iostream>
 
+#define MAX_PRIMARY_LENGTH 20
+
 typedef struct row_result{
     std::string result;
     int column_n;
@@ -53,5 +55,7 @@ private:
 
 char* encode_(char *T_name, const char *col_name, const char *primary);
 char* encode_colid(char *T_name, const char *col_name, const char *primary, int &col);
+void ini_p(char *s);
+
 
 #endif //ROACHLIB_ENCODING_INFOMATION_H
