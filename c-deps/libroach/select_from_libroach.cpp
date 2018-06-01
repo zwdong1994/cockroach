@@ -41,6 +41,9 @@ private:
 };
 
 void set_current_T_name(char *table_name);
+void set_limit(char *upper, char *lower, char *T_name, const char *col_name, rg &range, int &col);
+void return_res(char *primary, unsigned long long &primary_id, int &seq, rocksdb::Iterator* it);
+void return_equal_res(char *primary, unsigned long long &primary_id, int &seq, std::string value);
 
 
 get_res::get_res() {
@@ -104,13 +107,6 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     q_col_name = handle_stmt(command, range_q, table_name, column_num);
     if(q_col_name == NULL)
         return;
-    //std::cout << "table name: " << table_name << std::endl;
-
-
-
-    //std::cout << "range_q.variable_name: " << range_q.variable_name << std::endl;
-    //std::cout << "range_q.low: " << range_q.lower_limit << std::endl;
-    //std::cout << "range_q.up: " << range_q.upper_limit << std::endl;
 
     if(enc_info -> get_primaryname(table_name, mid_str) == 0)// mid str represent the primary column name.
         return;
@@ -122,14 +118,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
         for(int i = 0; i < column_num; i++){
             int q_col_id;
             //std::cout << range_q.lower_limit << std::endl;
-            if(range_q.lower_limit != "*")
-                strcpy(encode_str_lower, encode_colid(table_name, q_col_name[i].column_name.data(), range_q.lower_limit.data(), q_col_id));
-            else
-                encode_str_lower[0] = 0;
-            if(range_q.upper_limit != "*")
-                strcpy(encode_str_upper, encode_colid(table_name, q_col_name[i].column_name.data(), range_q.upper_limit.data(), q_col_id));
-            else
-                encode_str_upper[0] = 0;
+            set_limit(encode_str_upper, encode_str_lower, table_name, q_col_name[i].column_name.data(), range_q, q_col_id);
+
             //std::cout << q_col_name[i].column_name << std::endl;
             if(encode_str_lower[0] != 0)
                 sscanf(encode_str_lower, "/%d/%d/%s", &temp_tid, &temp_colid, primary);
@@ -159,27 +149,11 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
 
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
-                    g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
-                    if(g_res -> p2id_iter == g_res -> primary_to_id.end())
-                        g_res -> primary_to_id[primary] = g_res -> present_id ++;
-                    primary_id = g_res -> primary_to_id[primary];
-                    row_res *r_r = enc_info -> malloc_rbs();
-                    row_res *temp_res = NULL;
-                    r_r -> column_n = seq;
-                    r_r -> result = it->value().ToString();
-                    temp_res = g_res -> primaryid_to_result[primary_id];
-                    if(temp_res != NULL){
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = temp_res;
-                    } else {
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = NULL;
-                    }
+                    return_res(primary, primary_id, seq, it);
+
                 }
             } else if(encode_str_lower[0] == 0 && encode_str_upper[0] != 0) { // x < upper
                 for (it->Seek(Tid_colid); it->Valid() && (key = it->key().ToString()).compare(encode_str_upper) < 0 ; it->Next()) {
-
-
 
                     //std::cout << key << std::endl;
                     //std::cout << encode_str_upper << std::endl;
@@ -196,22 +170,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
 
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
-                    g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
-                    if(g_res -> p2id_iter == g_res -> primary_to_id.end())
-                        g_res -> primary_to_id[primary] = g_res -> present_id ++;
-                    primary_id = g_res -> primary_to_id[primary];
-                    row_res *r_r = enc_info -> malloc_rbs();
-                    row_res *temp_res = NULL;
-                    r_r -> column_n = seq;
-                    r_r -> result = it->value().ToString();
-                    temp_res = g_res -> primaryid_to_result[primary_id];
-                    if(temp_res != NULL){
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = temp_res;
-                    } else {
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = NULL;
-                    }
+                    return_res(primary, primary_id, seq, it);
                 }
             } else { // x = *****. And lower = upper = *****
                 if(strcmp(encode_str_lower, encode_str_upper) == 0){
@@ -221,22 +180,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     rocks_op -> kv_read(encode_str_lower, value);
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
-                    g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
-                    if(g_res -> p2id_iter == g_res -> primary_to_id.end())
-                        g_res -> primary_to_id[primary] = g_res -> present_id ++;
-                    primary_id = g_res -> primary_to_id[primary];
-                    row_res *r_r = enc_info -> malloc_rbs();
-                    row_res *temp_res = NULL;
-                    r_r -> column_n = seq;
-                    r_r -> result = value;
-                    temp_res = g_res -> primaryid_to_result[primary_id];
-                    if(temp_res != NULL){
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = temp_res;
-                    } else {
-                        g_res -> primaryid_to_result[primary_id] = r_r;
-                        r_r -> next = NULL;
-                    }
+                    return_equal_res(primary, primary_id, seq, value);
 
                 }
 
@@ -295,4 +239,57 @@ void get_result_num(DBres *res) { //Get the result number and give it back to th
 void set_current_T_name(char *table_name) {
     get_res *g_res = get_res::Get_get_res();
     g_res -> current_table_name = table_name;
+}
+
+void set_limit(char *upper, char *lower, char *T_name, const char *col_name, rg &range, int &col) {
+    if(range.lower_limit != "*")
+        strcpy(lower, encode_colid(T_name, col_name, range.lower_limit.data(), col));
+    else
+        lower[0] = 0;
+    if(range.upper_limit != "*")
+        strcpy(upper, encode_colid(T_name, col_name, range.upper_limit.data(), col));
+    else
+        upper[0] = 0;
+}
+
+void return_res(char *primary, unsigned long long &primary_id, int &seq, rocksdb::Iterator* it) {
+    encoding_info *enc_info = encoding_info::Get_encoding_info();
+    get_res *g_res = get_res::Get_get_res();
+    g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
+    if(g_res -> p2id_iter == g_res -> primary_to_id.end())
+        g_res -> primary_to_id[primary] = g_res -> present_id ++;
+    primary_id = g_res -> primary_to_id[primary];
+    row_res *r_r = enc_info -> malloc_rbs();
+    row_res *temp_res = NULL;
+    r_r -> column_n = seq;
+    r_r -> result = it->value().ToString();
+    temp_res = g_res -> primaryid_to_result[primary_id];
+    if(temp_res != NULL){
+        g_res -> primaryid_to_result[primary_id] = r_r;
+        r_r -> next = temp_res;
+    } else {
+        g_res -> primaryid_to_result[primary_id] = r_r;
+        r_r -> next = NULL;
+    }
+}
+
+void return_equal_res(char *primary, unsigned long long &primary_id, int &seq, std::string value) {
+    encoding_info *enc_info = encoding_info::Get_encoding_info();
+    get_res *g_res = get_res::Get_get_res();
+    g_res -> p2id_iter = g_res -> primary_to_id.find(primary);
+    if(g_res -> p2id_iter == g_res -> primary_to_id.end())
+        g_res -> primary_to_id[primary] = g_res -> present_id ++;
+    primary_id = g_res -> primary_to_id[primary];
+    row_res *r_r = enc_info -> malloc_rbs();
+    row_res *temp_res = NULL;
+    r_r -> column_n = seq;
+    r_r -> result = value;
+    temp_res = g_res -> primaryid_to_result[primary_id];
+    if(temp_res != NULL){
+        g_res -> primaryid_to_result[primary_id] = r_r;
+        r_r -> next = temp_res;
+    } else {
+        g_res -> primaryid_to_result[primary_id] = r_r;
+        r_r -> next = NULL;
+    }
 }
