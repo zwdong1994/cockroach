@@ -27,8 +27,21 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/tracing"
 	"github.com/cockroachdb/cockroach/pkg/sql/parser"
 
+	//"github.com/aws/aws-sdk-go/service/redshift"
 )
 
+// #cgo CPPFLAGS: -I../../../c-deps/libroach/include
+// #cgo CPPFLAGS: -I/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/include
+// #cgo LDFLAGS: -L/home/victor/workspace/native/x86_64-linux-gnu/protobuf -L/home/victor/workspace/native/x86_64-linux-gnu/jemalloc/lib -L/home/victor/workspace/native/x86_64-linux-gnu/snappy -L/home/victor/workspace/native/x86_64-linux-gnu/rocksdb -L/home/victor/workspace/native/x86_64-linux-gnu/libroach
+// #cgo LDFLAGS: -lrocksdb
+// #cgo LDFLAGS: -lroach
+// #cgo LDFLAGS: -lprotobuf
+// #cgo LDFLAGS: -lsnappy
+// #cgo LDFLAGS: -lstdc++
+//
+// #include <stdlib.h>
+// #include <select_from_libroach.h>
+import "C"
 // tableReader is the start of a computation flow; it performs KV operations to
 // retrieve rows for a table, runs a filter expression, and passes rows with the
 // desired column values to an output RowReceiver.
@@ -202,17 +215,43 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 		tr.out.Close()
 		return
 	}
+
+
+
+	var res_info C.DBres
+
+	C.get_result_num(&res_info)
+	//post := PostProcessSpec{Limit: 1}
+	//evalCtx := parser.NewTestingEvalContext()
 	v := sqlbase.EncDatumRow{} //return our interface. add by zwd.
 	v = make([]sqlbase.EncDatum, 5)
+
+	//inBuf := NewRowBuffer(nil , input, RowBufferArgs{})
+	//outBuf := &RowBuffer{}
+	/*if err := tr.out.Init(&post, inBuf.Types(), evalCtx, outBuf); err != nil {
+		fmt.Println("error make init!")
+	}*/
 	for i := 0; i < 5; i++ {
 		//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
 		v[i] = sqlbase.EncDatum{Datum: parser.NewDString("1234")}
 	}
 
+	tr.out.outputCols = make([]uint32, 3)
+	tr.out.outputCols[0] = 0
+	tr.out.outputCols[0] = 1
+	tr.out.outputCols[0] = 2
+	tr.out.renderExprs = nil
+	tr.out.rowIdx = 0
 	tr.out.EmitRow(ctx, v)
+	//fmt.Println("111111111")
+	//tr.out.output.Push(nil , ProducerMetadata{Err: err})
+
+
 	/*for {
+		fmt.Println(tr.out.maxRowIdx)
 		// TODO(radu,andrei,knz): set the traceKV flag when requested by the session.
 		fetcherRow, err := tr.fetcher.NextRow(ctx, false )
+		fmt.Println(tr.out.maxRowIdx)
 		if err != nil || fetcherRow == nil {
 			if err != nil {
 				tr.out.output.Push(nil, ProducerMetadata{Err: err})
@@ -220,7 +259,8 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 			break
 		}
 		// Emit the row; stop if no more rows are needed.
-		fmt.Println(fetcherRow)
+		//fmt.Println(fetcherRow)
+
 		consumerStatus, err := tr.out.EmitRow(ctx, fetcherRow)
 		if err != nil || consumerStatus != NeedMoreRows {
 			if err != nil {
@@ -228,7 +268,9 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 			}
 			break
 		}
+		break
 	}*/
+	fmt.Println("444444444444")
 	tr.sendMisplannedRangesMetadata(ctx)
 	sendTraceData(ctx, tr.out.output)
 	tr.out.Close()

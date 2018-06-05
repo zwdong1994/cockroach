@@ -25,7 +25,7 @@ typedef struct {
 
 void commit_stmts(char *command);
 void get_result_num(DBres* res);
-void push_result(DBString *result, int result_num, int column_num);
+void push_result(DBString *result);
 
 #ifdef __cplusplus
 }

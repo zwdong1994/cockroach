@@ -145,6 +145,30 @@ int encoding_info::free_rbs(row_res *f_rbs) {
     return 0;
 }
 
+int encoding_info::get_column_id(char *table_name, const char *column_name) {
+    int table_id;
+
+    table_id = get_table_id(table_name); //get table id.
+    sprintf(Tid_col, "/%d/%s/", table_id, column_name);
+    it = table_to_col.find(Tid_col);
+    if(it == table_to_col.end()) { //the column doesn't exist in the table.
+        return -1;
+    } else {
+        return table_to_col[Tid_col];
+    }
+}
+
+int encoding_info::get_table_id(char *table_name) {
+    it = table_to_id.find(table_name);
+    if(it == table_to_id.end()) { // the table doesn't exist in the table.
+        return -1;
+    }
+    else {
+        return table_to_id[table_name];
+    }
+
+}
+
 
 char* encode_(char *T_name, const char *col_name, const char *primary){
     int table_id;

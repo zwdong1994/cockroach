@@ -24,8 +24,10 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/sql/sqlbase"
 	"github.com/cockroachdb/cockroach/pkg/util/log"
 	"github.com/cockroachdb/cockroach/pkg/util/tracing"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
+	//"fmt"
+	"fmt"
 )
 
 // Processor is a common interface implemented by all processors, used by the
@@ -256,6 +258,7 @@ func (h *ProcOutputHelper) EmitRow(
 	if h.rowIdx >= h.maxRowIdx {
 		return DrainRequested, nil
 	}
+/*
 	if h.filter != nil {
 		// Filtering.
 		passes, err := h.filter.evalFilter(row)
@@ -269,11 +272,14 @@ func (h *ProcOutputHelper) EmitRow(
 			return NeedMoreRows, nil
 		}
 	}
+*/
+fmt.Println("1111111")
 	h.rowIdx++
 	if h.rowIdx <= h.offset {
 		// Suppress row.
 		return NeedMoreRows, nil
 	}
+
 	var outRow sqlbase.EncDatumRow
 	if h.renderExprs != nil {
 		// Rendering.
@@ -299,12 +305,13 @@ func (h *ProcOutputHelper) EmitRow(
 	if log.V(3) {
 		log.InfofDepth(ctx, 1, "pushing row %s", outRow)
 	}
-
+	fmt.Println("2222222222")
 	if r := h.output.Push(outRow, ProducerMetadata{}); r != NeedMoreRows { //outRow is the out put data. add by zwd.
 		log.VEventf(ctx, 1, "no more rows required. drain requested: %t",
 			r == DrainRequested)
 		return r, nil
 	}
+	fmt.Println("3333333333333")
 	if h.rowIdx == h.maxRowIdx {
 		log.VEventf(ctx, 1, "hit row limit; asking producer to drain")
 		return DrainRequested, nil

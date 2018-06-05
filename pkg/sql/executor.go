@@ -53,6 +53,7 @@ import (
 	"github.com/cockroachdb/cockroach/pkg/util/timeutil"
 	"github.com/cockroachdb/cockroach/pkg/util/uint128"
 	"github.com/cockroachdb/cockroach/pkg/util/uuid"
+
 )
 
 // #cgo CPPFLAGS: -I../../c-deps/libroach/include
@@ -2026,11 +2027,10 @@ func (e *Executor) execClassic(
 
 	case parser.Rows:
 
-		var result C.DBString
+		var result_ C.DBString
 		var res_info C.DBres
 
 		C.get_result_num(&res_info)
-
 		v := parser.Datums{}
 		v = make([]parser.Datum, res_info.column_num)
 		var i C.int
@@ -2039,14 +2039,14 @@ func (e *Executor) execClassic(
 			//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
 
 			for j = 0; j < res_info.column_num; j++ {
-				C.push_result(&result, 1, 1)
-				v[result.col_id] = parser.NewDString(C.GoStringN(result.data, result.len))
+				C.push_result(&result_)
+				v[result_.col_id] = parser.NewDString(C.GoStringN(result_.data, result_.len))
 
 			}
 
 			//fmt.Println(v)
 			rowResultWriter.AddRow(ctx, v)
-	}
+		}
 		//col_num := result.col_id
 		//v[col_num] = parser.NewDString(C.GoStringN(result.data, result.len))
 		//fmt.Println(v)
