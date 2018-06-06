@@ -14,9 +14,10 @@
 
 // +build !stdmalloc
 
-package result
+package distsqlrun
 
 // #cgo LDFLAGS: -ljemalloc
 // #cgo dragonfly freebsd LDFLAGS: -lm
 // #cgo linux LDFLAGS: -lrt -lm -lpthread
+// #cgo LDFLAGS: -lstdc++
 import "C"

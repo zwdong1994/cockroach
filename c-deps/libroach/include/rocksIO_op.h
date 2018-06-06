@@ -6,6 +6,7 @@
 #define ROACHLIB_ROCKSIO_OP_H
 
 #include <rocksdb/db.h>
+#include <rocksdb/iterator.h>
 #include <cassert>
 #include <rocksdb/write_batch.h>
 #include <iostream>
@@ -26,6 +27,7 @@ private:
     rocksdb::DB* db;
     rocksdb::Options options;
 
+    bool option_set;
 
     rocksIO();
     rocksIO(rocksIO const &);

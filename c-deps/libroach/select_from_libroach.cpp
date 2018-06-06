@@ -198,7 +198,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
             return;
 
         sprintf(Tid_colid, "/%d/%d/", T_id, var_id);
-        std::cout << Tid_colid << std::endl;
+        //std::cout << Tid_colid << std::endl;
         for (it->Seek(Tid_colid); it->Valid(); it->Next()) {
             sscanf(it -> key().data(), "/%d/%d/%s", &seek_tid, &seek_colid, primary); // get the primary key.
             //std::cout << it -> key().data() << "    "<< seek_colid << std::endl;

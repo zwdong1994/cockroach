@@ -7,6 +7,7 @@
 
 
 rocksIO::rocksIO() {
+    option_set = false;
     options.create_if_missing = true;
     /*options.write_buffer_size = 64 << 20; // 64 MB
     options.max_write_buffer_number = 4;

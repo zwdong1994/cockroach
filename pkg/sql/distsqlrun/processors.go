@@ -27,7 +27,7 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	//"fmt"
-	"fmt"
+	//"fmt"
 )
 
 // Processor is a common interface implemented by all processors, used by the
@@ -273,7 +273,7 @@ func (h *ProcOutputHelper) EmitRow(
 		}
 	}
 */
-fmt.Println("1111111")
+//fmt.Println("1111111")
 	h.rowIdx++
 	if h.rowIdx <= h.offset {
 		// Suppress row.
@@ -305,13 +305,13 @@ fmt.Println("1111111")
 	if log.V(3) {
 		log.InfofDepth(ctx, 1, "pushing row %s", outRow)
 	}
-	fmt.Println("2222222222")
+	//fmt.Println("2222222222")
 	if r := h.output.Push(outRow, ProducerMetadata{}); r != NeedMoreRows { //outRow is the out put data. add by zwd.
 		log.VEventf(ctx, 1, "no more rows required. drain requested: %t",
 			r == DrainRequested)
 		return r, nil
 	}
-	fmt.Println("3333333333333")
+	//fmt.Println("3333333333333")
 	if h.rowIdx == h.maxRowIdx {
 		log.VEventf(ctx, 1, "hit row limit; asking producer to drain")
 		return DrainRequested, nil
