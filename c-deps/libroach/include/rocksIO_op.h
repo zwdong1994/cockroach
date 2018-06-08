@@ -19,6 +19,8 @@ public:
 
     int kv_write(char *key, char *value);
     int kv_read(char *key, std::string &value);
+    int tag;
+    void set_option(rocksdb::Options opt);
     rocksdb::Iterator* get_iter();
     rocksdb::Iterator* it;
 
@@ -28,7 +30,7 @@ private:
     rocksdb::Options options;
 
     bool option_set;
-
+    void set_opt();
     rocksIO();
     rocksIO(rocksIO const &);
     rocksIO& operator = (rocksIO const&);

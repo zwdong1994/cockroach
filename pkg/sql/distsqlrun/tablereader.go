@@ -215,9 +215,9 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 
 
 	var i C.int
-	var j C.int
+	//var j C.int
 	var k uint32
-	var result_ C.DBString
+	var result_ *C.DBString
 	col_num, res_num := return_col_num()
 
 	v := sqlbase.EncDatumRow{} //return our interface. add by zwd.
@@ -226,11 +226,12 @@ func (tr *tableReader) Run(ctx context.Context, wg *sync.WaitGroup) {
 	for i = 0; i < res_num; i++ {
 		//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
 		k = 0
-		for j = 0; j < col_num; j++ {
-			C.push_result(&result_)
+		C.push_result(&result_)
+		for ; result_ != nil; result_ = result_.next{
+			//C.push_result(&result_)
 			//fmt.Println(C.GoStringN(result_.data, result_.len))
 			v[result_.col_id] = sqlbase.EncDatum{Datum: parser.NewDString(C.GoStringN(result_.data, result_.len))}
-			tr.out.outputCols[j] = k
+			tr.out.outputCols[k] = k
 			k++
 		}
 

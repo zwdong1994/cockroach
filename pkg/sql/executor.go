@@ -2027,21 +2027,35 @@ func (e *Executor) execClassic(
 
 	case parser.Rows:
 
-		var result_ C.DBString
+		var result_ *C.DBString
 		var res_info C.DBres
 
+		result_ = nil
 		C.get_result_num(&res_info)
 		v := parser.Datums{}
 		v = make([]parser.Datum, res_info.column_num)
 		var i C.int
-		var j C.int
-		for i = 0; i < res_info.result_num; i++ {
+		//var j C.int
+		/*for i = 0; i < res_info.result_num; i++ {
 			//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
 
 			for j = 0; j < res_info.column_num; j++ {
 				C.push_result(&result_)
 				v[result_.col_id] = parser.NewDString(C.GoStringN(result_.data, result_.len))
 
+			}
+
+			//fmt.Println(v)
+			rowResultWriter.AddRow(ctx, v)
+		}
+		*/
+
+		for i = 0; i < res_info.result_num; i++ {
+			//v[i] = sqlbase.DatumToEncDatum(sqlbase.ColumnType{SemanticType: sqlbase.ColumnType_STRING}, parser.NewDString("123"))
+			C.push_result(&result_)
+			for ; result_ != nil; result_ = result_.next{
+				//fmt.Println("11111")
+				v[result_.col_id] = parser.NewDString(C.GoStringN(result_.data, result_.len))
 			}
 
 			//fmt.Println(v)

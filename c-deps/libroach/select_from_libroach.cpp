@@ -31,6 +31,8 @@ public:
     void delete_res();
     row_result *p;
     char temp_result[200];
+    DBString *head;
+    bool output;
 
 private:
 
@@ -48,6 +50,8 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
 
 
 get_res::get_res() {
+    output = false;
+    head = NULL;
     p2id_iter = primary_to_id.begin();
     p = NULL;
     present_id = 0;
@@ -244,17 +248,23 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     g_res -> p = g_res -> primaryid_to_result[g_res -> p2id_iter -> second];
     g_res -> r_info . result_num = g_res -> present_id;
     g_res -> r_info . column_num = column_num;
+    g_res -> output = true;
+    //std::cout << "asdfadsasdf" << std::endl;
 }
 
 
-void push_result(DBString *result) { //Push the result to the cockroach.
+void push_result(DBString **result) { //Push the result to the cockroach.
 
     //row_result *p = NULL;
     get_res *g_res = get_res::Get_get_res();
     //std::cout << "s111111111111111111" << std::endl;
+    DBString *p = g_res -> head;
+
+
 
     while(g_res -> p2id_iter != g_res -> primary_to_id.end()) {
         //std::cout << "primary name: " << g_res -> p2id_iter -> first;
+        /*
         while(g_res -> p != NULL){
             //std::cout << " column id: " << g_res -> p ->column_n << "  result: " << g_res -> p -> result << std::endl;
             result -> col_id = g_res -> p -> column_n;
@@ -264,6 +274,26 @@ void push_result(DBString *result) { //Push the result to the cockroach.
             g_res -> p = g_res -> p -> next;
             return;
         }
+         */
+        while(g_res -> p != NULL){
+            //std::cout << " column id: " << g_res -> p ->column_n << "  result: " << g_res -> p -> result << std::endl;
+            p -> col_id = g_res -> p -> column_n;
+
+            p->len = strlen(g_res -> p -> result.data());
+            
+            p->data = (char *)malloc(p -> len + 1);
+            strcpy(p -> data, g_res -> p -> result.data());
+            g_res -> p = g_res -> p -> next;
+            p = p -> next;
+            //return;
+        }
+        *result = g_res -> head;
+        //p = *result;
+        /*while(p != NULL){
+            std::cout << p ->data << "         " << p -> col_id << std::endl;
+            p = p->next;
+        }*/
+        //std::cout << result -> data << std::endl;
         //std::cout << "asdfadfasdf" <<std::endl;
         g_res -> p = NULL;
         g_res -> p2id_iter ++;
@@ -273,16 +303,48 @@ void push_result(DBString *result) { //Push the result to the cockroach.
             g_res -> delete_res();
             return;
         }
+        return;
     }
 
 }
 
 void get_result_num(DBres *res) { //Get the result number and give it back to the cockroach.
     get_res *g_res = get_res::Get_get_res();
-    encoding_info *enc_info = encoding_info::Get_encoding_info();
-    res -> total_col_num = enc_info -> get_column_num(g_res -> current_table_name.data());
-    res -> column_num = g_res -> r_info.column_num;
-    res -> result_num = g_res -> r_info.result_num;
+    if(g_res -> output == true) {
+        encoding_info *enc_info = encoding_info::Get_encoding_info();
+        DBString *p = NULL, *hp = NULL;
+        if (g_res->r_info.column_num == 0 && g_res->r_info.result_num == 0)
+            return;
+
+        if (g_res->head != NULL) {
+            p = g_res->head;
+            while (p != NULL) {
+                hp = p->next;
+                delete p;
+                p = hp;
+            }
+            g_res->head = NULL;
+        }
+        for (int i = 0; i < g_res->r_info.column_num; i++) {
+            p = new DBString;
+
+            if (g_res->head != NULL) {
+                p->next = g_res->head;
+                g_res->head = p;
+            } else {
+                p->next = NULL;
+                g_res->head = p;
+            }
+        }
+        res->total_col_num = enc_info->get_column_num(g_res->current_table_name.data());
+        res->column_num = g_res->r_info.column_num;
+        res->result_num = g_res->r_info.result_num;
+        g_res -> output = false;
+    } else {
+        res->total_col_num = 0;
+        res->column_num = 0;
+        res->result_num = 0;
+    }
 }
 
 void set_current_T_name(char *table_name) {

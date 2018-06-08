@@ -32,6 +32,7 @@
 #include "protos/cockroach/pkg/storage/engine/enginepb/rocksdb.pb.h"
 #include "protos/cockroach/pkg/storage/engine/enginepb/mvcc.pb.h"
 #include "db.h"
+#include "rocksIO_op.h"
 #include "encoding.h"
 #include "eventlistener.h"
 
@@ -1675,6 +1676,10 @@ DBStatus DBOpen(DBEngine **db, DBSlice dir, DBOptions db_opts) {
     options.env = memenv.get();
   }
 
+  rocksIO* rocks_op = rocksIO::Get_rocksIO();
+  //std::cout << "1111" <<std::endl;
+  rocks_op -> set_option(options);
+//std::cout << "2222" <<std::endl;
   rocksdb::DB *db_ptr;
   rocksdb::Status status = rocksdb::DB::Open(options, ToString(dir), &db_ptr);
   if (!status.ok()) {
