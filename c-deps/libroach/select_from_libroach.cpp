@@ -33,6 +33,7 @@ public:
     char temp_result[200];
     DBString *head;
     bool output;
+    unsigned long long total_trans;
 
 private:
 
@@ -50,6 +51,7 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
 
 
 get_res::get_res() {
+    total_trans = 0;
     output = false;
     head = NULL;
     p2id_iter = primary_to_id.begin();
@@ -94,6 +96,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     char select[7] = "select";
     char SELECT[7] = "SELECT";
     int seq = 0;
+
     rocksdb::Iterator* it;
     rg range_q;
     qci *q_col_name;
@@ -180,6 +183,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     primary[strlen(primary) - 1] = 0;
                     key = encode_str_lower;
                     rocks_op -> kv_read(encode_str_lower, value);
+
+                    g_res -> total_trans += value.size();
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
                     return_equal_res(primary, primary_id, seq, value);
@@ -208,32 +213,34 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
             //std::cout << it -> key().data() << "    "<< seek_colid << std::endl;
             if(seek_colid != var_id)
                 break;
+            value = it -> value().data();
+            g_res -> total_trans += value.size();
             if(range_q.lower_limit != "*" && range_q.upper_limit == "*") { // x > lower
-                if(it -> value().size() > range_q.lower_limit.size()){ //length(x) > length(lower)
+                if((value.size()) > range_q.lower_limit.size()){ //length(x) > length(lower)
                     get_single_res(it -> key().data(), table_name, q_col_name, column_num, T_id);
-                } else if(it -> value().size() < range_q.lower_limit.size()) { //length(x) < length(lower)
+                } else if(value.size() < range_q.lower_limit.size()) { //length(x) < length(lower)
                     continue;
                 } else { //length(x) = length(lower)
-                    if (it->value().compare(range_q.lower_limit) > 0) {
+                    if (value.compare(range_q.lower_limit) > 0) {
                         get_single_res(it->key().data(), table_name, q_col_name, column_num, T_id);
                     }
                 }
             }
             else if(range_q.lower_limit == "*" && range_q.upper_limit != "*") { // x < upper
-                if(it -> value().size() > range_q.upper_limit.size()){ //length(x) > length(lower)
+                if(value.size() > range_q.upper_limit.size()){ //length(x) > length(lower)
                     continue;
 
-                } else if(it -> value().size() < range_q.upper_limit.size()) { //length(x) < length(lower)
+                } else if(value.size() < range_q.upper_limit.size()) { //length(x) < length(lower)
                     get_single_res(it -> key().data(), table_name, q_col_name, column_num, T_id);
                 } else { //length(x) = length(lower)
-                    if (it -> value().compare(range_q.upper_limit) < 0) {
+                    if (value.compare(range_q.upper_limit) < 0) {
                         get_single_res(it -> key().data(), table_name, q_col_name, column_num, T_id);
                     }
                 }
 
             }
             else if(range_q.lower_limit == range_q.upper_limit ) { // x = *****
-                if(it -> value().compare(range_q.lower_limit) == 0) {
+                if(value.compare(range_q.lower_limit) == 0) {
 
                     get_single_res(it -> key().data(), table_name, q_col_name, column_num, T_id);
                 }
@@ -249,6 +256,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     g_res -> r_info . result_num = g_res -> present_id;
     g_res -> r_info . column_num = column_num;
     g_res -> output = true;
+    std::cout << "The transfer size from rocksdb is: " << g_res -> total_trans << "B" << std::endl;
     //std::cout << "asdfadsasdf" << std::endl;
 }
 
@@ -374,6 +382,7 @@ void return_res(char *primary, unsigned long long &primary_id, int &seq, rocksdb
     row_res *temp_res = NULL;
     r_r -> column_n = seq;
     r_r -> result = it->value().ToString();
+    g_res -> total_trans += r_r -> result.size();
     temp_res = g_res -> primaryid_to_result[primary_id];
     if(temp_res != NULL){
         g_res -> primaryid_to_result[primary_id] = r_r;
@@ -395,6 +404,7 @@ void return_equal_res(char *primary, unsigned long long &primary_id, int &seq, s
     row_res *temp_res = NULL;
     r_r -> column_n = seq;
     r_r -> result = value;
+    g_res -> total_trans += r_r -> result.size();
     temp_res = g_res -> primaryid_to_result[primary_id];
     if(temp_res != NULL){
         g_res -> primaryid_to_result[primary_id] = r_r;
@@ -411,6 +421,7 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
     char primary[MAX_PRIMARY_LENGTH + 1];
     int seq = 0;
     unsigned long long primary_id;
+    get_res *g_res = get_res::Get_get_res();
     std::string value;
     encoding_info *enc_info = encoding_info::Get_encoding_info();
     rocksIO* rocks_op = rocksIO::Get_rocksIO();
@@ -418,6 +429,7 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
     for(int i = 0; i < col_num; i++) {
         sprintf(encode_str, "/%d/%d/%s", T_id, enc_info -> get_column_id(table_name, q_col_name[i].column_name.data()), primary);
         rocks_op -> kv_read(encode_str, value);
+        g_res -> total_trans += value.size();
         //std::cout << "key: " << encode_str << std::endl;
         //std::cout << "value: " << value << std::endl;
         return_equal_res(primary, primary_id, seq, value);
