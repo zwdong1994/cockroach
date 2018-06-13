@@ -55,7 +55,7 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
     }
 
     // second pattern, get range information
-    rmah = R"((where|WHERE)\s+(.+)\s+([>|<\=])\s+(\d+)+(;))";
+    rmah = R"((where|WHERE)\s+(.+)\s+([>|<\=])\s+(.+)+(;))";
     if(std::regex_search(cmd, mah, rmah)){
         if(mah[3] == ">"){
             range_q.lower_limit = mah[4];
