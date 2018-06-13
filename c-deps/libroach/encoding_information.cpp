@@ -90,7 +90,7 @@ void encoding_info::ini_pool() {
     allocate_pool_head = NULL;
     delete_pool_head = NULL;
 
-    for(; i < 2000000; ++i){
+    for(; i < 200000000; ++i){
         new_alloc = new row_res;
         new_alloc -> next = allocate_pool_head;
         new_alloc -> flag = 0;

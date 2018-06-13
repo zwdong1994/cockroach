@@ -49,7 +49,7 @@ int rocksIO::kv_write(char *key, char *value) {
     }
 }
 
-int rocksIO::kv_read(char *key, std::string &value) {
+int rocksIO::kv_read(const char *key, std::string &value) {
     if(option_set == true) {
         rocksdb::Status s;
         if (key != NULL) {

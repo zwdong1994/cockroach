@@ -18,7 +18,7 @@ public:
     static rocksIO *rocksIO_instance;
 
     int kv_write(char *key, char *value);
-    int kv_read(char *key, std::string &value);
+    int kv_read(const char *key, std::string &value);
     int tag;
     void set_option(rocksdb::Options opt);
     rocksdb::Iterator* get_iter();

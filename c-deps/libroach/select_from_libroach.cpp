@@ -213,7 +213,10 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
             //std::cout << it -> key().data() << "    "<< seek_colid << std::endl;
             if(seek_colid != var_id)
                 break;
-            value = it -> value().data();
+
+            value = it -> value().ToString();
+
+
             g_res -> total_trans += value.size();
             if(range_q.lower_limit != "*" && range_q.upper_limit == "*") { // x > lower
                 if((value.size()) > range_q.lower_limit.size()){ //length(x) > length(lower)
@@ -240,8 +243,9 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
 
             }
             else if(range_q.lower_limit == range_q.upper_limit ) { // x = *****
-                if(value.compare(range_q.lower_limit) == 0) {
 
+                if(value.compare(range_q.lower_limit) == 0) {
+                    //num++;
                     get_single_res(it -> key().data(), table_name, q_col_name, column_num, T_id);
                 }
             }
@@ -249,6 +253,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                 return;
 
         }
+
     }
 
     g_res -> p2id_iter = g_res -> primary_to_id.begin();
@@ -425,7 +430,7 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
     char primary[MAX_PRIMARY_LENGTH + 1];
     int seq = 0;
     unsigned long long primary_id;
-    get_res *g_res = get_res::Get_get_res();
+    //get_res *g_res = get_res::Get_get_res();
     std::string value;
     encoding_info *enc_info = encoding_info::Get_encoding_info();
     rocksIO* rocks_op = rocksIO::Get_rocksIO();
@@ -433,7 +438,7 @@ void get_single_res(const char *key, char *table_name, qci *q_col_name, int col_
     for(int i = 0; i < col_num; i++) {
         sprintf(encode_str, "/%d/%d/%s", T_id, enc_info -> get_column_id(table_name, q_col_name[i].column_name.data()), primary);
         rocks_op -> kv_read(encode_str, value);
-        g_res -> total_trans += value.size();
+        //g_res -> total_trans += value.size();
         //std::cout << "key: " << encode_str << std::endl;
         //std::cout << "value: " << value << std::endl;
         return_equal_res(primary, primary_id, seq, value);
