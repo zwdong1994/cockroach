@@ -257,6 +257,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     g_res -> r_info . column_num = column_num;
     g_res -> output = true;
     std::cout << "The transfer size from rocksdb is: " << g_res -> total_trans << "B" << std::endl;
+    g_res -> total_trans = 0;
     //std::cout << "asdfadsasdf" << std::endl;
 }
 
@@ -267,7 +268,8 @@ void push_result(DBString **result) { //Push the result to the cockroach.
     get_res *g_res = get_res::Get_get_res();
     //std::cout << "s111111111111111111" << std::endl;
     DBString *p = g_res -> head;
-
+    row_result *hp = NULL;
+    encoding_info *enc_info = encoding_info::Get_encoding_info();
 
 
     while(g_res -> p2id_iter != g_res -> primary_to_id.end()) {
@@ -288,11 +290,13 @@ void push_result(DBString **result) { //Push the result to the cockroach.
             p -> col_id = g_res -> p -> column_n;
 
             p->len = strlen(g_res -> p -> result.data());
-            
+
             p->data = (char *)malloc(p -> len + 1);
             strcpy(p -> data, g_res -> p -> result.data());
+            hp = g_res -> p;
             g_res -> p = g_res -> p -> next;
             p = p -> next;
+            enc_info -> free_rbs(hp);
             //return;
         }
         *result = g_res -> head;

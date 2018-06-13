@@ -40,7 +40,7 @@ public:
     void ini_pool();
     void destory_pool();
     row_res* malloc_rbs();
-    inline int free_rbs(row_res *f_rbs);
+    int free_rbs(row_res *f_rbs);
 
 private:
 
