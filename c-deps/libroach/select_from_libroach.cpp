@@ -127,8 +127,9 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
         for(int i = 0; i < column_num; i++){
             int q_col_id;
             //std::cout << range_q.lower_limit << std::endl;
+            //std::cout << q_col_name[i].column_name << std::endl;
             set_limit(encode_str_upper, encode_str_lower, table_name, q_col_name[i].column_name.data(), range_q, q_col_id);
-
+            //std::cout << encode_str_lower << "          " << encode_str_upper <<std::endl;
             //std::cout << q_col_name[i].column_name << std::endl;
             if(encode_str_lower[0] != 0)
                 sscanf(encode_str_lower, "/%d/%d/%s", &temp_tid, &temp_colid, primary);
@@ -138,20 +139,21 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
             //std::cout << "temp_colid: " << temp_colid << std::endl;
 
             sprintf(Tid_colid, "/%d/%d/", temp_tid, temp_colid);
+            //std::cout << Tid_colid << std::endl;
             if(encode_str_lower[0] != 0 && encode_str_upper[0] == 0){  // x > lower
                 //std::cout << ">>>>>>>>>>" << std::endl;
-                for (it->Seek(encode_str_lower); it->Valid() ; it->Next()) {
+                for (it->Seek(encode_str_lower); it->Valid() && (key = it->key().ToString()).compare(encode_str_lower) >= 0 ; it->Next()) {
                     //std::cout << key << std::endl;
 
                     strcpy(key_char, it->key().data());
                     sscanf(key_char, "/%d/%d/%s", &seek_tid, &seek_colid, primary); // get the primary key.
                     if(seek_tid != temp_tid || seek_colid != temp_colid)
-                        continue;
+                        break;
                     primary[MAX_PRIMARY_LENGTH] = 0;
                     //std::cout << "primary: " << atoi(primary) << std:: endl;
                     //std::cout << "lower: " << atoi(range_q.lower_limit.data()) << std::endl;
                     if(seek_colid != q_col_id)
-                        continue;
+                        break;
 
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
@@ -183,7 +185,8 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     primary[strlen(primary) - 1] = 0;
                     key = encode_str_lower;
                     rocks_op -> kv_read(encode_str_lower, value);
-
+                    if(value.size() <= 0)
+                        continue;
                     g_res -> total_trans += value.size();
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
@@ -322,6 +325,7 @@ void push_result(DBString **result) { //Push the result to the cockroach.
         }
         return;
     }
+
 
 }
 
