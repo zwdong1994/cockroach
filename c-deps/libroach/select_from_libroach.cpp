@@ -168,12 +168,12 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     strcpy(key_char, key.data());
                     sscanf(key_char, "/%d/%d/%s", &seek_tid, &seek_colid, primary); // get the primary key.
                     if(seek_tid != temp_tid || seek_colid != temp_colid)
-                        continue;
+                        break;
                     primary[MAX_PRIMARY_LENGTH] = 0;
                     //std::cout << "primary: " << atoi(primary) << std:: endl;
                     //std::cout << "lower: " << atoi(range_q.lower_limit.data()) << std::endl;
                     if(seek_colid != q_col_id)
-                        continue;
+                        break;
 
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
@@ -186,7 +186,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     key = encode_str_lower;
                     rocks_op -> kv_read(encode_str_lower, value);
                     if(value.size() <= 0)
-                        continue;
+                        break;
                     //g_res -> total_trans += value.size();
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
