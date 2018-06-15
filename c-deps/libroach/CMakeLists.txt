@@ -58,5 +58,5 @@ set_target_properties(roach roachccl PROPERTIES
   CXX_STANDARD 11
   CXX_STANDARD_REQUIRED YES
   CXX_EXTENSIONS NO
-  COMPILE_OPTIONS "-Werror;-Wall;-Wno-sign-compare;-std=c++11;"
+  COMPILE_OPTIONS "-Werror;-Wall;-Wno-sign-compare;-std=c++11;-O3;"
 )
