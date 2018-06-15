@@ -179,7 +179,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     //std::cout << "value: " << value << std::endl;
                     return_res(primary, primary_id, seq, it);
                 }
-            } else { // x = *****. And lower = upper = *****
+            } else { // x = *****. Ancd ned lower = upper = *****
                 if(strcmp(encode_str_lower, encode_str_upper) == 0){
                     sscanf(encode_str_lower, "/%d/%d/%s/", &temp_tid, &temp_colid, primary); // get the primary key.
                     primary[strlen(primary) - 1] = 0;
@@ -187,7 +187,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
                     rocks_op -> kv_read(encode_str_lower, value);
                     if(value.size() <= 0)
                         continue;
-                    g_res -> total_trans += value.size();
+                    //g_res -> total_trans += value.size();
                     //std::cout << "key: " << key << std::endl;
                     //std::cout << "value: " << value << std::endl;
                     return_equal_res(primary, primary_id, seq, value);
