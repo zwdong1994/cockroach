@@ -111,12 +111,13 @@ qci *handle_stmt(char *stmt, rg &range_q, char *table, int &col_num) {
         if(j == 0)
             range_q.variable_name += range_ref[i];
 
-        if(j != 0 && range_ref[i] != ';') {
+        if(j != 0 ) {
             mid_string[k++] = range_ref[i];
             mid_string[k] = 0;
         }
 
     }
+    mid_string[k - 1] = 0;
     if(j == 1){
         range_q.lower_limit = mid_string;
         range_q.upper_limit = mid_string;
