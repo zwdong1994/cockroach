@@ -8,7 +8,7 @@
 #include <map>
 #include <iostream>
 
-#define MAX_PRIMARY_LENGTH 20
+#define MAX_PRIMARY_LENGTH 35
 
 typedef struct row_result{
     std::string result;
