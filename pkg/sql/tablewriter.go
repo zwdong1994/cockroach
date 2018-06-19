@@ -139,6 +139,7 @@ func (ti *tableInserter) row(
 			C.insert_kv(C.CString(ti.ri.Helper.TableDesc.Name), C.CString(ti.ri.InsertCols[i].Name),
 				C.CString(values[i].String()), C.CString(primary), C.CString(values[primary_num].String()))
 		}
+
 		return nil, nil
 
 

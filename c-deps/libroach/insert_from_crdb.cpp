@@ -28,6 +28,11 @@ void insert_kv(char *T_name, char *col_name, char *value, char *primary_name, ch
     encode_s = encode_(T_name, col_name, primary);
     //std::cout << encode_s << std::endl;
     rocks_op -> kv_write(encode_s, value);
+    free(T_name);
+    free(col_name);
+    free(value);
+    free(primary);
+    free(primary_name);
     //rocks_op -> kv_read(encode_s, str);
     //std::cout << str << std::endl;
 
