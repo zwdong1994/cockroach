@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char Tid_col[30];
-char encode_str[100]; // This is the encoded key, which is consist of /table_id/column_id/primary_key.
+char Tid_col[100];
+char encode_str[200]; // This is the encoded key, which is consist of /table_id/column_id/primary_key.
 char mid_p[MAX_PRIMARY_LENGTH + 1];
 
 encoding_info::encoding_info() {

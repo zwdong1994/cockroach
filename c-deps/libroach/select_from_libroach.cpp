@@ -85,14 +85,14 @@ void get_res::delete_res() {
 
 void commit_stmts(char *command) { //Get command string from cockroachdb.
     char table_name[30];
-    char Tid_colid[30];
+    char Tid_colid[100];
 
     int column_num;
     int temp_tid, temp_colid, seek_tid, seek_colid;
     unsigned long long primary_id;
     char primary[MAX_PRIMARY_LENGTH + 1];
     std::string key, value;
-    char key_char[100];
+    char key_char[200];
     char select[7] = "select";
     char SELECT[7] = "SELECT";
     int seq = 0;

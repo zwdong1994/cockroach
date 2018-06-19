@@ -32,9 +32,10 @@ int rocksIO::kv_write(char *key, char *value) {
     if(option_set == true) {
         if (key != NULL && value != NULL) {
             rocksdb::Status s;
-            rocksdb::WriteBatch batch;
+            /*rocksdb::WriteBatch batch;
             batch.Put(key, value);
-            s = db->Write(rocksdb::WriteOptions(), &batch);
+            s = db->Write(rocksdb::WriteOptions(), &batch);*/
+            s = db -> Put(rocksdb::WriteOptions(), key, value);
             if (s.ok())
                 return 1;
             else
