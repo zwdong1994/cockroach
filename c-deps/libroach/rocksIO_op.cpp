@@ -85,6 +85,7 @@ void rocksIO::set_option(rocksdb::Options opt) {
     if(option_set == false && tag++) {
         set_opt();
         options = opt;
+        options.max_open_files = 20000;
         rocksdb::Status status = rocksdb::DB::Open(options, "test_db", &db);
 
         assert(status.ok());
