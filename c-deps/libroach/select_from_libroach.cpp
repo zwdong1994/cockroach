@@ -264,7 +264,7 @@ void commit_stmts(char *command) { //Get command string from cockroachdb.
     g_res -> r_info . result_num = g_res -> present_id;
     g_res -> r_info . column_num = column_num;
     g_res -> output = true;
-    std::cout << "The transfer size from rocksdb is: " << g_res -> total_trans << "B" << std::endl;
+    std::cout << "The transfer size from rocksdb is: " << g_res -> total_trans << " B" << std::endl;
     g_res -> total_trans = 0;
     //std::cout << "asdfadsasdf" << std::endl;
 }
