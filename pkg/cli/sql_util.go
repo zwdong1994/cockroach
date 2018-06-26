@@ -575,10 +575,6 @@ func runQueryAndFormatResults(conn *sqlConn, w io.Writer, fn queryFunc) error {
 			return err
 		}
 
-
-
-
-
 		//if cliCtx.showTimes {
 		{
 			// Present the time since the last result, or since the
